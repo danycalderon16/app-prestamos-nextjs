@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 export default function Page() {
 
   const {user, googleSignIn} = UserAuth()
-  const showPopUp =async () => {
+  const showPopUp = () => {
     try {
       googleSignIn();
     } catch (error) {
@@ -16,10 +16,8 @@ export default function Page() {
 
   useEffect(() => {
     if(user){
-      redirect("/")
-    }
-  
-    
+      redirect("/loans")
+    }   
   }, [user])
   
   return <div className="flex">
