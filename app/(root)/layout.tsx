@@ -1,6 +1,5 @@
 import React from 'react'
 import { redirect } from 'next/navigation';
-import { UserAuth } from '@/context/AuthContext';
 import { auth } from '@/firebase/config';
 export default async function RootLayout({
   children

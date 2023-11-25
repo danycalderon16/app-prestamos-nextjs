@@ -1,4 +1,5 @@
 "use client"
+import BottomNavigation from "@/components/bottom-navigation";
 import Navbar from "@/components/navbar";
 import { UserAuth } from "@/context/AuthContext";
 import { redirect } from "next/navigation";
@@ -20,6 +21,7 @@ export default function MainLayout({
     <>
       <Navbar />
       {children}
+      <BottomNavigation/>
     </>
   );
 }
