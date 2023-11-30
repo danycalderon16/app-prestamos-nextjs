@@ -1,7 +1,7 @@
 "use client";
 import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
-import { AlertModal } from "./alert-modal";
+import { AlertModal } from "./modals/alert-modal";
 
 const Navbar = () => {
   const { user, logOut } = UserAuth();
@@ -10,17 +10,20 @@ const Navbar = () => {
 
   return (
     <>
-    <AlertModal 
-     isOpen={open}
-     onClose={() => setOpen(false)}
-     onConfirm={logOut}
-     loading={loading}/>
-    <div className="flex justify-between bg-white p-3 items-center">
-      <h2>App Prestamos</h2>
-      <div className="flex justify-between gap-2 items-center">
-        <h3>{user?.displayName}</h3>
-        <button
-          className={`text-gray-900 
+      <AlertModal
+        title="¿Estás seguro de cerrar sesion?"
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={logOut}
+        loading={loading}
+      />
+
+      <div className="flex justify-between bg-white p-3 items-center">
+        <h2>App Prestamos</h2>
+        <div className="flex justify-between gap-2 items-center">
+          <h3>{user?.displayName}</h3>
+          <button
+            className={`text-gray-900 
               bg-white border 
               border-gray-300 
               focus:outline-none 
@@ -36,12 +39,12 @@ const Navbar = () => {
               dark:hover:bg-gray-700 
               dark:hover:border-gray-600 
               dark:focus:ring-gray-700`}
-          onClick={()=>setOpen(true)}
-        >
-          Salir
-        </button>
+            onClick={() => setOpen(true)}
+          >
+            Salir
+          </button>
+        </div>
       </div>
-    </div>
     </>
   );
 };
