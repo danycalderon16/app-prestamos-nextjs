@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const BottomNavigation = () => {
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+      <Link href={"/loans"} className="flex items-center">
         <button
           type="button"
           className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
@@ -66,6 +68,8 @@ const BottomNavigation = () => {
             Prestamos
           </span>
         </button>
+        </Link>
+        <Link href={"/completed"}className="flex items-center">
         <button
           type="button"
           className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
@@ -84,6 +88,8 @@ const BottomNavigation = () => {
             Completados
           </span>
         </button>
+        </Link>
+        <Link href={"/deletes"}className="flex items-center">
         <button
           type="button"
           className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
@@ -93,6 +99,7 @@ const BottomNavigation = () => {
             Borrados
           </span>
         </button>
+        </Link>
       </div>
     </div>
   );
