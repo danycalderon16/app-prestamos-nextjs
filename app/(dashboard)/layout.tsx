@@ -1,9 +1,8 @@
 "use client"
-import BottomNavigation from "@/components/bottom-navigation";
-import Navbar from "@/components/navbar";
 import { UserAuth } from "@/context/AuthContext";
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
+import SideMenu from "@/components/side-menu";
 
 export default function MainLayout({
   children,
@@ -19,9 +18,8 @@ export default function MainLayout({
   },[user])
   return (
     <>
-      <Navbar />
       {children}
-      <BottomNavigation/>
+      <SideMenu />
     </>
   );
 }
