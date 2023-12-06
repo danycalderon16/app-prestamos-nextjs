@@ -17,9 +17,9 @@ export default function MainLayout({
     }
   },[user])
   return (
-    <>
+    <div className="ml-64 h-full">
       {children}
       <SideMenu />
-    </>
+    </div>
   );
 }
