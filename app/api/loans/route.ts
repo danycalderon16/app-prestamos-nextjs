@@ -9,7 +9,6 @@ export async function GET(
   {params}: {params: {uid:string}}
 ) {
   try {
-    // const collectionRef = collection(useFirestore(),`usuarios/${params.uid}/prestamos`);
     const db = getFirestore(firebase_app)
     const data = await getDocs(collection(db,`usuarios/${params.uid}/prestamos`));
 

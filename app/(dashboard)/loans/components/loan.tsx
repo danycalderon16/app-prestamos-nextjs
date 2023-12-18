@@ -21,7 +21,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
         <CardDescription>${loan.cantidadPrestada}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>`{loan.abonos}/{loan.plazos}`</p>
+        <p>{loan.abonos}/{loan.plazos}</p>
       </CardContent>
       <CardFooter>
         <p>${loan.abonado}</p>

@@ -1,14 +1,18 @@
+"use client"
 import React from 'react'
 import { redirect } from 'next/navigation';
 import { auth } from '@/firebase/config';
+import { signIn, useSession, signOut } from "next-auth/react";
 export default async function RootLayout({
   children
 }:{
   children: React.ReactNode;
 }) {
-  const user = auth.currentUser
-  if(!user) {
-    console.log({user});    
+  const {data} = useSession()
+  console.log(data);
+  
+  if(!data) {
+    console.log({data});    
     redirect("sign-in")
   }
   

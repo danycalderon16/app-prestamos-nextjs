@@ -3,6 +3,7 @@ import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { AlertModal } from "./modals/alert-modal";
 import Link from "next/link";
+import { useLoans } from "@/hooks/useLoans";
 
 const SideMenu = () => {
   const { user, logOut } = UserAuth();

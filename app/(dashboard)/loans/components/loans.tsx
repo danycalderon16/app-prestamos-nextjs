@@ -9,12 +9,13 @@ interface Props {
   uid: string
 }
 
-export async function Loans() {
-  const {user} = UserAuth()
-  const {loans} = await useLoans({uid:user?.uid})
+export function Loans() {
+  // const {user} = UserAuth()
+  // const {loans} = await useLoans({uid:user?.uid})
   return (
-   <>{loans.map(loan=>(
-    <LoanCard key={loan.id} loan={loan}/>
-   ))}</>
+    <></>
+  //  <>{loans.map(loan=>(
+  //   <LoanCard key={loan.id} loan={loan}/>
+  //  ))}</>
   )
 }

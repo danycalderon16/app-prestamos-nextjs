@@ -1,30 +1,18 @@
 "use client";
 
 import { UserAuth } from "@/context/AuthContext";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 export default function Page() {
-  const { user, googleSignIn } = UserAuth();
-  const showPopUp = () => {
-    try {
-      googleSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  useEffect(() => {
-    if (user) {
-      redirect("/loans");
-    }
-  }, [user]);
 
   return (
     <div className="bg-white flex h-full">
       <div className="flex items-center justify-center h-screen w-screen dark:bg-gray-800 ">
         <button
-        onClick={showPopUp}
+        onClick={()=>signIn()}
           className={`px-4
                 py-2
                 border
