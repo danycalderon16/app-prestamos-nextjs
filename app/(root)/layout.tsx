@@ -1,4 +1,4 @@
-"use client"
+
 import React from 'react'
 import { redirect } from 'next/navigation';
 import { auth } from '@/firebase/config';
@@ -8,13 +8,13 @@ export default async function RootLayout({
 }:{
   children: React.ReactNode;
 }) {
-  const {data} = useSession()
-  console.log(data);
+  // const {data} = useSession()
+  // console.log(data);
   
-  if(!data) {
-    console.log({data});    
-    redirect("sign-in")
-  }
+  // if(!data) {
+  //   console.log({data});    
+  //   redirect("sign-in")
+  // }
   
   return (
     <div className='w-full bg-red'>
