@@ -11,12 +11,12 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
 
-  // const {user} = UserAuth()
-  // useEffect(()=>{
-  //   if(!user){
-  //     redirect("/sign-in")
-  //   }
-  // },[user])
+  const {user} = UserAuth()
+  useEffect(()=>{
+    if(!user){
+      redirect("/sign-in")
+    }
+  },[user])
   return (
     <div className="ml-64 h-full">
       {children}
