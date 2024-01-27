@@ -9,8 +9,8 @@ export const OPTIONS: NextAuthOptions = {
       httpOptions: {
         timeout: 40000,
       },
-    }),
-  ],
+    }),            
+  ]
 };
 
 const hanlder = NextAuth(OPTIONS);

@@ -1,12 +1,9 @@
-"use client"
-
 import React from 'react'
 import {Loans} from './components/loans';
 
-const LoansPage = () => {
- 
+const LoansPage = () => { 
   return (
-      <Loans />
+    <Loans />
   )
 }
 

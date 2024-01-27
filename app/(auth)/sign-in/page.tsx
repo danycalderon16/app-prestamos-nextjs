@@ -1,12 +1,17 @@
 "use client";
 
-import { UserAuth } from "@/context/AuthContext";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React, { useEffect } from "react";
-export default function Page() {
+import React from "react";
 
+export default function Page() {
+  const data = useSession();
+
+  if(data.status === "authenticated"){
+    redirect("loans")
+  }
+  
 
   return (
     <div className="bg-white flex h-full">

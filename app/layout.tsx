@@ -2,7 +2,7 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import FirebaseProvider from "@/providers/FirebaseProvider";
+import ClientSideProviders from "@/providers/ClientSideProviders";
 import FirestoreProvider from "@/providers/FirestoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,11 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <FirebaseProvider>
+        <ClientSideProviders>
           <FirestoreProvider>
             <AuthContextProvider>{children}</AuthContextProvider>
           </FirestoreProvider>
-        </FirebaseProvider>
+        </ClientSideProviders>
       </body>
     </html>
   );
