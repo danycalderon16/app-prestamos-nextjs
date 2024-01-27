@@ -1,9 +1,7 @@
-'use client';
-
-export default function Name() {
+export default function Complete() {
   return (
     <div>
-      <h1>Client Component</h1>
+      <h1>Complete Component</h1>
     </div>
   );
 }

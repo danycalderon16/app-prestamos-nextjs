@@ -1,5 +1,4 @@
-import { UserAuth } from '@/context/AuthContext';
-import { useAuth } from '@/hooks/useAuth';
+
 import { useLoans } from '@/hooks/useLoans'
 import { Loan } from '@/interfaces/loans';
 import React, { useEffect, useState } from 'react'
@@ -10,8 +9,6 @@ interface Props {
 }
 
 export function Loans() {
-  // const {user} = UserAuth()
-  // const {loans} = await useLoans({uid:user?.uid})
   return (
     <></>
   //  <>{loans.map(loan=>(

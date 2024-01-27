@@ -1,27 +1,18 @@
-"use client"
-import { UserAuth } from "@/context/AuthContext";
-import { redirect } from "next/navigation";
-import React, { useEffect } from "react";
-import SideMenu from "@/components/side-menu"
+import React from "react";
+import SideMenu from "@/components/side-menu";
 import { BottomMenu } from "@/components/bottom-menu";
-
-export default function MainLayout({
+import Navbar from "@/components/navbar";
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-  const {user} = UserAuth()
-  useEffect(()=>{
-    if(!user){
-      redirect("/sign-in")
-    }
-  },[user])
   return (
-    <div className="ml-64 h-full">
+    <div className="sm:ml-64 h-full">
+      <Navbar/>
       {children}
-      <SideMenu/>
-      <BottomMenu/>
+      <SideMenu />
+      <BottomMenu />
     </div>
   );
 }

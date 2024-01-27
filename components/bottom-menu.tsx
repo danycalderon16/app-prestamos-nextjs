@@ -11,7 +11,7 @@ export const BottomMenu = () => {
     z-50
     h-16
     bg-white
-    border-t
+    shadow-top
     border-gray-200
     dark:bg-gray-700
     dark:border-gray-600

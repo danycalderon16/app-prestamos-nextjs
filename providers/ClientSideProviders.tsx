@@ -4,7 +4,7 @@ import { firebaseConfig } from "@/firebase/config";
 import { SessionProvider } from "next-auth/react";
 import { FirebaseAppProvider } from "reactfire";
 
-export default function FirebaseProvider({
+export default function ClientSideProviders({
   children,
 }: React.PropsWithChildren) {
   return (

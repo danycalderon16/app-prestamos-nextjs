@@ -2,9 +2,12 @@
 import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { AlertModal } from "./modals/alert-modal";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Navbar = () => {
-  const { user, logOut } = UserAuth();
+  const { logOut } = UserAuth();
+  const user = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -18,33 +21,19 @@ const Navbar = () => {
         loading={loading}
       />
 
-      <div className="flex justify-between bg-white p-3 items-center">
-        <h2>App Prestamos</h2>
+      <div className="flex justify-between p-3 items-center sm:hidden shadow-md">
+        <h1 className="text-3xl">App Prestamos</h1>
         <div className="flex justify-between gap-2 items-center">
-          <h3>{user?.displayName}</h3>
-          <button
-            className={`text-gray-900 
-              bg-white border 
-              border-gray-300 
-              focus:outline-none 
-              hover:bg-gray-100 
-              focus:ring-4 
-              focus:ring-gray-200 
-              font-medium rounded-lg 
-              text-sm px-5 
-              p-2.5 me-2 
-              dark:bg-gray-800 
-              dark:text-white 
-              dark:border-gray-600 
-              dark:hover:bg-gray-700 
-              dark:hover:border-gray-600 
-              dark:focus:ring-gray-700
-              `
-            }
-            onClick={() => setOpen(true)}
-          >
-            Salir
-          </button>
+         
+          <h3>{user?.data?.user?.name}</h3>
+          <Image
+            width={50}
+            height={50}
+            className="w-10 h-10 rounded-full cursor-pointer"
+            src={user.data?.user?.image!}
+            alt="user"
+            onClick={()=>setOpen(true)}
+          />
         </div>
       </div>
     </>
