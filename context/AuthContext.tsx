@@ -1,7 +1,7 @@
 "use client"
-import { signOut } from "next-auth/react"
+// import { signOut } from "next-auth/react"
 import { auth } from '@/firebase/config';
-import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface AuthContextInterface {
@@ -27,7 +27,11 @@ export const AuthContextProvider = ({children}:React.PropsWithChildren) => {
   }
 
   const logOut = ()=> {
-   signOut();
+    console.log("click");
+    
+   signOut(auth).then(()=>{
+    window.location.reload;
+   });
   }
 
   useEffect(() => {

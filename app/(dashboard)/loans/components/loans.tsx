@@ -9,6 +9,7 @@ interface Props {
 }
 
 export function Loans() {
+  // const {} = useLoans()
   return (
     <></>
   //  <>{loans.map(loan=>(

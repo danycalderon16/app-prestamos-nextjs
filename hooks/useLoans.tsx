@@ -1,9 +1,13 @@
 import { Loan } from '@/interfaces/loans';
 import { collection, getDocs } from 'firebase/firestore';
+import { getServerSession } from 'next-auth';
 import { useFirestore } from 'reactfire';
 
-export async function useLoans({uid}:{uid:string|undefined}){
-  const collectionRef = collection(useFirestore(),`usuarios/${uid}/prestamos`);
+
+export async function useLoans(){
+  const session = await getServerSession()
+
+  const collectionRef = collection(useFirestore(),`usuarios/${session}/prestamos`);
   
   const data = await getDocs(collectionRef);
 

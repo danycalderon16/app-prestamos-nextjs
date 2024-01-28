@@ -7,13 +7,16 @@ import { useLoans } from "@/hooks/useLoans";
 import { CircleDollarSign, CheckCircle, Trash, LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/config";
+import { useRouter } from "next/navigation";
 
 const SideMenu = () => {
-  const { logOut } = UserAuth();
-  const user = useSession();
-
+  const { logOut, user } = UserAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter()
 
   return (
     <>
@@ -21,7 +24,9 @@ const SideMenu = () => {
         title="¿Estás seguro de cerrar sesion?"
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={logOut}
+        onConfirm={()=>signOut(auth).then(()=>{
+          router.replace("/sign-in")  
+        })}
         loading={loading}
       />
 
@@ -70,16 +75,16 @@ const SideMenu = () => {
             <li className="mt-auto">
               <div>
                 <div className="flex gap-3 items-center mb-3 pb-2 border-b border-slate-600">
-                  {user.data?.user && (
+                  {user && (
                     <>
-                      <Image
+                      {/* <Image
                         width={50}
                         height={50}
                         className="w-10 h-10 rounded-full"
                         src={user.data?.user?.image!}
                         alt="user"
-                      />
-                      <p>{user.data?.user?.name}</p>
+                      /> */}
+                      <p>{user.displayName}</p>
                     </>
                   )}
                 </div>

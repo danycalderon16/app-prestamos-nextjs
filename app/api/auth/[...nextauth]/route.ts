@@ -6,11 +6,31 @@ export const OPTIONS: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      httpOptions: {
-        timeout: 40000,
-      },
-    }),            
-  ]
+    }),               
+  ],
+  callbacks: {
+    session: async ({ session, token }) => {
+      
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+    jwt: async ({ user, token, account }) => {
+      // console.log({user, token, account});
+      if(account){
+        console.log(account);
+        
+      }
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: 'jwt',
+  },
 };
 
 const hanlder = NextAuth(OPTIONS);
