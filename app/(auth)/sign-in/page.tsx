@@ -18,8 +18,8 @@ export default function Page() {
 
   const auth = getAuth(firebase_app)
   
-  console.log({userFB:auth.currentUser});
-  console.log({useSession:data});
+  // console.log({userFB:auth.currentUser});
+  // console.log({useSession:data});
   
 
   if(auth.currentUser){

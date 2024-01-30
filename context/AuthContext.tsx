@@ -1,7 +1,8 @@
 "use client"
 // import { signOut } from "next-auth/react"
 import { auth } from '@/firebase/config';
-import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { setCookie } from 'cookies-next';
+import { GoogleAuthProvider, User, UserCredential, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface AuthContextInterface {
@@ -21,14 +22,19 @@ const AuthContext = createContext(initialState);
 export const AuthContextProvider = ({children}:React.PropsWithChildren) => {
   const [user, setUser ] = useState<User>();
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
+    try{
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    const res = await signInWithPopup(auth, provider)
+    const token = await res.user.getIdToken();
+    setCookie("token", token)
+    }
+    catch(error){
+      throw new Error("Hubo un error al iniciar sesión")
+    }
   }
 
-  const logOut = ()=> {
-    console.log("click");
-    
+  const logOut = ()=> {    
    signOut(auth).then(()=>{
     window.location.reload;
    });

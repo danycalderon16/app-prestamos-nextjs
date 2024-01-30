@@ -10,9 +10,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log({user});
-  
-
   return (
     <>
       <AlertModal
