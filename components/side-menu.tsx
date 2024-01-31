@@ -24,9 +24,7 @@ const SideMenu = () => {
         title="¿Estás seguro de cerrar sesion?"
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={()=>signOut(auth).then(()=>{
-          router.replace("/sign-in")  
-        })}
+        onConfirm={()=>logOut()}
         loading={loading}
       />
 

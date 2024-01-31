@@ -1,15 +1,22 @@
-import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { User } from "./interfaces/user";
+import { NextResponse, type NextRequest } from "next/server";
+import { existUser, getUser } from "./lib/utilsServer";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  
+  const thereIsUser = existUser();
+
+  const path = request.nextUrl.pathname;
+
+  if(!thereIsUser && path !== "/sign-in") {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+
+  if(thereIsUser && path === "/sign-in") {
+    return NextResponse.redirect(new URL("/loans", request.url));
+  }
+
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/sign-in"],
+  matcher: ["/loans", "/sign-in"],
 };

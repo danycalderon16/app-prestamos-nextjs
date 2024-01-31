@@ -1,17 +1,17 @@
 "use client";
 
 import { firebaseConfig } from "@/firebase/config";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 import { FirebaseAppProvider } from "reactfire";
 
 export default function ClientSideProviders({
   children,
 }: React.PropsWithChildren) {
   return (
-    <SessionProvider>
+    // <SessionProvider>
       <FirebaseAppProvider firebaseConfig={firebaseConfig}>
         {children}
       </FirebaseAppProvider>
-    </SessionProvider>
+    // </SessionProvider>
   );
 }

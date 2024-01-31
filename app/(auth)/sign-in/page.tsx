@@ -1,5 +1,5 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+// import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -14,17 +14,17 @@ export default function Page() {
 
   const {googleSignIn} = UserAuth();
 
-  const data = useSession();
+  // // const data = useSession();
 
-  const auth = getAuth(firebase_app)
+  // const auth = getAuth(firebase_app)
   
-  // console.log({userFB:auth.currentUser});
-  // console.log({useSession:data});
+  // // console.log({userFB:auth.currentUser});
+  // // console.log({useSession:data});
   
 
-  if(auth.currentUser){
-    redirect("loans")
-  }
+  // if(auth.currentUser){
+  //   redirect("loans")
+  // }
   
 
   return (
