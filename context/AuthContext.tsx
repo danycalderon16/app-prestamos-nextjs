@@ -2,7 +2,8 @@
 // import { signOut } from "next-auth/react"
 import { auth } from '@/firebase/config';
 import { setCookie } from 'cookies-next';
-import { GoogleAuthProvider, User, UserCredential, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface AuthContextInterface {
@@ -27,7 +28,9 @@ export const AuthContextProvider = ({children}:React.PropsWithChildren) => {
     const provider = new GoogleAuthProvider();
     const res = await signInWithPopup(auth, provider)
     const token = await res.user.getIdToken();
+    const data = jwtDecode(token);
     setCookie("token", token)
+    setCookie("data", data)
     }
     catch(error){
       throw new Error("Hubo un error al iniciar sesión")
