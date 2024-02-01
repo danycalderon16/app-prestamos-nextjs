@@ -4,20 +4,21 @@ import React, { useState } from "react";
 import { AlertModal } from "./modals/alert-modal";
 import Link from "next/link";
 import { CircleDollarSign, CheckCircle, Trash, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { User } from "@/interfaces/user";
+import { ROUTES } from "@/lib/routes";
 
-interface Props{
-  dataUser:User;
+interface Props {
+  dataUser: User;
 }
 
-const SideMenu = ({dataUser}:Props) => {
-  console.log({dataUser});
-  
+const SideMenu = ({ dataUser }: Props) => {
   const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const pathName = usePathname();
 
   return (
     <>
@@ -25,7 +26,7 @@ const SideMenu = ({dataUser}:Props) => {
         title="¿Estás seguro de cerrar sesion?"
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={()=>logOut()}
+        onConfirm={() => logOut()}
         loading={loading}
       />
 
@@ -35,41 +36,23 @@ const SideMenu = ({dataUser}:Props) => {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul className="h-full font-medium flex flex-col gap-y-3">
-            <li>
-              <Link
-                href="/loans"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <CircleDollarSign className="text-gray-500" size={30} />
-                <span className="flex-1 ms-3 whitespace-nowrap">Prestamos</span>
-                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/completed"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <CheckCircle className="text-gray-500" size={30} />
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  Completados
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/deletes"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <Trash className="text-gray-500" size={30} />
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  Eliminados
-                </span>
-              </Link>
-            </li>
+          <ul className="h-full font-medium flex flex-col gap-y-3 ">
+            {ROUTES.map((route) => (
+              <li key={route.path}>
+                <Link
+                  href={route.path}
+                  className={`flex items-center p-2 text-gray-900 rounded-lg  ${pathName===route.path ?'bg-slate-200 ':'hover:bg-slate-200'}`}
+                >
+                  <route.icon className="text-gray-500" size={30} />
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    {route.name}
+                  </span>
+                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                    {route.stats}
+                  </span>
+                </Link>
+              </li>
+            ))}
 
             <li className="mt-auto">
               <div>

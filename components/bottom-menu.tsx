@@ -1,49 +1,40 @@
+"use client"
 import React from "react";
 
 import Link from "next/link";
 import { CheckCircle, CircleDollarSign, DollarSign, Trash } from "lucide-react";
+import { ROUTES } from "@/lib/routes";
+import { usePathname } from "next/navigation";
 export const BottomMenu = () => {
+  const pathName = usePathname();
   return (
     <div className={`fixed
     bottom-0
     left-0
     w-full
     z-50
-    h-16
+    h-[5rem]
     bg-white
     shadow-top
     border-gray-200
     dark:bg-gray-700
     dark:border-gray-600
     sm:hidden`}>
-      <ul className="font-medium flex gap-5 justify-center">
-        <li>
+      <ul className="font-medium flex gap-5 m-[5px] justify-center">
+        {
+          ROUTES.map((route) => (
+            <li key={route.path}>
           <Link
-            href="/loans"
-            className="flex items-center p-2 flex-col text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            href={route.path}
+            className={`flex items-center p-2 flex-col text-gray-900 rounded-lg  hover:bg-gray-100 ${pathName=== route.path ? 'bg-slate-200':''}`}
           >
-            <CircleDollarSign className="text-gray-500" size={30}/>
-            <span className="flex-1 whitespace-nowrap">Prestamos</span>
+            <route.icon className="text-gray-500" size={30}/>
+            <span className="flex-1 whitespace-nowrap">{route.name}</span>
           </Link>
         </li>
-        <li>
-          <Link
-            href="/completed"
-            className="flex items-center p-2 flex-col text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <CheckCircle className="text-gray-500" size={30}/>
-            <span className="flex-1 whitespace-nowrap">Completados</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/deletes"
-            className="flex items-center p-2 flex-col text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <Trash className="text-gray-500" size={30}/>
-            <span className="flex-1 whitespace-nowrap">Eliminados</span>
-          </Link>
-        </li>
+          ))
+        }
+       
       </ul>
     </div>
   );
