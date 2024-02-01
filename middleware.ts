@@ -14,9 +14,8 @@ export async function middleware(request: NextRequest) {
   if(thereIsUser && path === "/sign-in") {
     return NextResponse.redirect(new URL("/loans", request.url));
   }
-
 }
 
 export const config = {
-  matcher: ["/loans", "/sign-in"],
+  matcher: ["/loans", "/sign-in","/completed","/deletes"],
 };

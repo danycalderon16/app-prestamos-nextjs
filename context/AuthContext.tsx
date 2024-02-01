@@ -1,10 +1,11 @@
 "use client";
 // import { signOut } from "next-auth/react"
 import { auth } from "@/firebase/config";
+import { User } from "@/interfaces/user";
+import { existUser, getUser } from "@/lib/utilsServer";
 import { deleteCookie, setCookie } from "cookies-next";
 import {
   GoogleAuthProvider,
-  User,
   onAuthStateChanged,
   signInWithPopup,
   signOut,
@@ -44,25 +45,11 @@ export const AuthContextProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const logOut = async () => {
-    // signOut(auth).then(() => {
-      console.log("logout");
-      
-      const data = await fetch("/api/auth", {
-        method: "POST",
-      })
-      router.replace("/sign-in")
-    // });
-  };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      setUser(currentuser!);
+    const data = await fetch("/api/auth", {
+      method: "POST",
     });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [user]);
+    router.replace("/sign-in");
+  };
 
   return (
     <AuthContext.Provider

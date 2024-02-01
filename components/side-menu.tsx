@@ -3,20 +3,21 @@ import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { AlertModal } from "./modals/alert-modal";
 import Link from "next/link";
-import { useLoans } from "@/hooks/useLoans";
 import { CircleDollarSign, CheckCircle, Trash, LogOut } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/config";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { User } from "@/interfaces/user";
 
-const SideMenu = () => {
-  const { logOut, user } = UserAuth();
+interface Props{
+  dataUser:User;
+}
+
+const SideMenu = ({dataUser}:Props) => {
+  console.log({dataUser});
+  
+  const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const router = useRouter()
 
   return (
     <>
@@ -73,16 +74,16 @@ const SideMenu = () => {
             <li className="mt-auto">
               <div>
                 <div className="flex gap-3 items-center mb-3 pb-2 border-b border-slate-600">
-                  {user && (
+                  {dataUser && (
                     <>
-                      {/* <Image
+                      <Image
                         width={50}
                         height={50}
                         className="w-10 h-10 rounded-full"
-                        src={user.data?.user?.image!}
+                        src={dataUser.picture}
                         alt="user"
-                      /> */}
-                      <p>{user.displayName}</p>
+                      />
+                      <p>{dataUser.name}</p>
                     </>
                   )}
                 </div>
