@@ -1,23 +1,37 @@
 "use client";
-
-import { signIn, useSession } from "next-auth/react";
+// import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
+import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import firebase_app from "@/firebase/config";
+import { UserAuth } from "@/context/AuthContext";
+
+const provider = new GoogleAuthProvider();
 
 export default function Page() {
-  const data = useSession();
 
-  if(data.status === "authenticated"){
-    redirect("loans")
-  }
+  const {googleSignIn} = UserAuth();
+
+  // // const data = useSession();
+
+  // const auth = getAuth(firebase_app)
+  
+  // // console.log({userFB:auth.currentUser});
+  // // console.log({useSession:data});
+  
+
+  // if(auth.currentUser){
+  //   redirect("loans")
+  // }
   
 
   return (
     <div className="bg-white flex h-full">
       <div className="flex items-center justify-center h-screen w-screen dark:bg-gray-800 ">
         <button
-        onClick={()=>signIn()}
+        onClick={()=>googleSignIn()}
           className={`px-4
                 py-2
                 border

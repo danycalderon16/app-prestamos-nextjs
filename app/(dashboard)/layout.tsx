@@ -2,16 +2,19 @@ import React from "react";
 import SideMenu from "@/components/side-menu";
 import { BottomMenu } from "@/components/bottom-menu";
 import Navbar from "@/components/navbar";
+import { getUser } from "@/lib/utilsServer";
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) {  
+
+  const dataUser = getUser();
   return (
     <div className="sm:ml-64 h-full">
-      <Navbar/>
+      <Navbar dataUser={dataUser!}/>
       {children}
-      <SideMenu />
+      <SideMenu dataUser={dataUser!}/>
       <BottomMenu />
     </div>
   );
