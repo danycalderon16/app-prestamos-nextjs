@@ -1,9 +1,13 @@
 import React from 'react'
 import {Loans} from './components/loans';
+import { getLoans } from '@/actions/get-loans';
 
-const LoansPage = () => { 
+const LoansPage = async() => { 
+
+  const loans = await getLoans();
+
   return (
-    <Loans />
+    <Loans loans={loans}/>
   )
 }
 

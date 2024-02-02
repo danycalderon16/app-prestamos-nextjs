@@ -24,9 +24,9 @@ const Navbar = ({dataUser}:Props) => {
         loading={loading}
       />
 
-      <div className="flex justify-between p-3 items-center sm:hidden shadow-md">
+      <div className="flex justify-between p-3 items-center shadow-md">
         <h1 className="text-3xl">App Prestamos</h1>
-        <div className="flex justify-between gap-2 items-center">
+        <div className="flex justify-between gap-2 items-center sm:hidden">
          
           <h3>{dataUser?.name}</h3>
           <Image

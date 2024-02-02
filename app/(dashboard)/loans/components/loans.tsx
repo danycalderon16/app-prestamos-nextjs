@@ -1,19 +1,19 @@
-
-import { useLoans } from '@/hooks/useLoans'
-import { Loan } from '@/interfaces/loans';
-import React, { useEffect, useState } from 'react'
-import LoanCard from './loan';
+import { useLoans } from "@/hooks/useLoans";
+import { Loan } from "@/interfaces/loans";
+import React from "react";
+import LoanCard from "./loan";
 
 interface Props {
-  uid: string
+  loans: Loan[];
 }
 
-export function Loans() {
-  // const {} = useLoans()
+export function Loans({loans}:Props) {
+  // const {loans} = await useLoans()
+  // console.log({loans});
+
   return (
-    <></>
-  //  <>{loans.map(loan=>(
-  //   <LoanCard key={loan.id} loan={loan}/>
-  //  ))}</>
-  )
+     <>{loans.map(loan=>(
+      <LoanCard key={loan.id} loan={loan}/>
+     ))}</>
+  );
 }
