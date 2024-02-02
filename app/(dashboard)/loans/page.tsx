@@ -7,7 +7,10 @@ const LoansPage = async() => {
   const loans = await getLoans();
 
   return (
-    <Loans loans={loans}/>
+    <div className='m-4'>
+      <Loans loans={loans??[]}/>
+
+    </div>
   )
 }
 

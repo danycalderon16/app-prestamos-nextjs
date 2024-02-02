@@ -8,9 +8,6 @@ interface Props {
 }
 
 export function Loans({loans}:Props) {
-  // const {loans} = await useLoans()
-  // console.log({loans});
-
   return (
      <>{loans.map(loan=>(
       <LoanCard key={loan.id} loan={loan}/>
