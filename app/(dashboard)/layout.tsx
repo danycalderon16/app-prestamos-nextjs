@@ -11,7 +11,7 @@ export default async function MainLayout({
 
   const dataUser = getUser();
   return (
-    <div className="sm:ml-64 h-full">
+    <div className="md:ml-64 h-full">
       <Navbar dataUser={dataUser!}/>
       {children}
       <SideMenu dataUser={dataUser!}/>

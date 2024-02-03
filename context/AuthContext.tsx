@@ -2,16 +2,13 @@
 // import { signOut } from "next-auth/react"
 import { auth } from "@/firebase/config";
 import { User } from "@/interfaces/user";
-import { existUser, getUser } from "@/lib/utilsServer";
-import { deleteCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import {
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithPopup,
-  signOut,
 } from "firebase/auth";
-import { redirect, useRouter } from "next/navigation";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextInterface {
   googleSignIn: () => void;

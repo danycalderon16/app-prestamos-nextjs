@@ -1,14 +1,10 @@
-import firebase_app, { firebaseConfig } from "@/firebase/config";
+import firebase_app from "@/firebase/config";
 import { Loan } from "@/interfaces/loans";
 import { getUser } from "@/lib/utilsServer";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { NextResponse } from "next/server"
-// import { useFirestore } from "reactfire";
+import axios from "axios";
+import { getFirestore, getDocs, collection } from "firebase/firestore";
 
-export async function GET(
-  req:Request,
-  {params}: {params: {uid:string}}
-) {
+export const getLoans = async () => {
   try {
     const db = getFirestore(firebase_app)
     const user = getUser()
@@ -20,14 +16,9 @@ export async function GET(
       return loanData;
     });
 
-    console.log({loans});
-    
-
-    return NextResponse.json(loans);
-
+    return loans;
   } catch (error) {
-    console.error("[FIRESTORE_GET]",error)
-    return new NextResponse("Internal server error",{status:500})
+    console.log(error);
+    
   }
-  
 }

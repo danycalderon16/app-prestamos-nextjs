@@ -19,7 +19,7 @@ export const BottomMenu = () => {
     border-gray-200
     dark:bg-gray-700
     dark:border-gray-600
-    sm:hidden`}>
+    md:hidden`}>
       <ul className="font-medium flex gap-5 m-[5px] justify-center">
         {
           ROUTES.map((route) => (

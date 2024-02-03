@@ -1,19 +1,20 @@
-
-import { useLoans } from '@/hooks/useLoans'
-import { Loan } from '@/interfaces/loans';
-import React, { useEffect, useState } from 'react'
-import LoanCard from './loan';
+import { useLoans } from "@/hooks/useLoans";
+import { Loan } from "@/interfaces/loans";
+import React from "react";
+import LoanCard from "./loan";
 
 interface Props {
-  uid: string
+  loans: Loan[];
 }
 
-export function Loans() {
-  // const {} = useLoans()
+export function Loans({ loans }: Props) {
   return (
-    <></>
-  //  <>{loans.map(loan=>(
-  //   <LoanCard key={loan.id} loan={loan}/>
-  //  ))}</>
-  )
+    <div className={`
+     w-full flex flex-col items-center gap-2`}>
+      {loans.map((loan) => (
+        <LoanCard key={loan.id} loan={loan} />
+      ))}
+    </div>
+  );
 }
+
