@@ -1,7 +1,6 @@
 import firebase_app from "@/firebase/config";
 import { Loan } from "@/interfaces/loans";
 import { getUser } from "@/lib/utilsServer";
-import axios from "axios";
 import { getFirestore, getDocs, collection } from "firebase/firestore";
 
 export const getLoans = async () => {

@@ -16,7 +16,7 @@ export default async function MainLayout({
       <Navbar dataUser={dataUser!} />
       {children}
       <SideMenu dataUser={dataUser!} />
-      <FloatButton />
+      <FloatButton id={dataUser?.user_id!} />
       <BottomMenu />
     </div>
   );
