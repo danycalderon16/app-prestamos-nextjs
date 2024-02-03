@@ -12,16 +12,12 @@ export async function GET(
   try {
     const db = getFirestore(firebase_app)
     const user = getUser()
-    console.log(user?.user_id);
     
     const data = await getDocs(collection(db,`usuarios/${user?.user_id}/prestamos`));
     const loans: Loan[] = data.docs.map((doc) => {
       const loanData = doc.data() as Loan; // Asegúrate de que los datos del documento coincidan con la interfaz Loan
       return loanData;
-    });
-
-    console.log({loans});
-    
+    });    
 
     return NextResponse.json(loans);
 

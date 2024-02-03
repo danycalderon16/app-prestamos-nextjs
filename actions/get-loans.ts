@@ -1,14 +1,12 @@
 import firebase_app from "@/firebase/config";
 import { Loan } from "@/interfaces/loans";
 import { getUser } from "@/lib/utilsServer";
-import axios from "axios";
 import { getFirestore, getDocs, collection } from "firebase/firestore";
 
 export const getLoans = async () => {
   try {
     const db = getFirestore(firebase_app)
     const user = getUser()
-    console.log(user?.user_id);
     
     const data = await getDocs(collection(db,`usuarios/${user?.user_id}/prestamos`));
     const loans: Loan[] = data.docs.map((doc) => {
@@ -18,7 +16,7 @@ export const getLoans = async () => {
 
     return loans;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     
   }
 }

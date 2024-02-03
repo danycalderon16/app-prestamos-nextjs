@@ -10,7 +10,7 @@ interface Props {
 export function Loans({ loans }: Props) {
   return (
     <div className={`
-     w-full flex flex-col items-center gap-2`}>
+     w-full flex flex-col items-center gap-4`}>
       {loans.map((loan) => (
         <LoanCard key={loan.id} loan={loan} />
       ))}

@@ -8,24 +8,9 @@ import firebase from "firebase/compat/app";
 import firebase_app from "@/firebase/config";
 import { UserAuth } from "@/context/AuthContext";
 
-const provider = new GoogleAuthProvider();
-
 export default function Page() {
 
   const {googleSignIn} = UserAuth();
-
-  // // const data = useSession();
-
-  // const auth = getAuth(firebase_app)
-  
-  // // console.log({userFB:auth.currentUser});
-  // // console.log({useSession:data});
-  
-
-  // if(auth.currentUser){
-  //   redirect("loans")
-  // }
-  
 
   return (
     <div className="bg-white flex h-full">
