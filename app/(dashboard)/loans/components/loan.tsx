@@ -18,45 +18,46 @@ const Loan: React.FC<Props> = ({ loan }) => {
 const [toggle, setToggle] = useState(false);
 
   return (
-    <Card className="flex p-2 gap-3 cursor-pointer transition-opacity ease-in-out delay-150 duration-300" onClick={()=>setToggle(prev=>!prev)}>
+    <Card className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>setToggle(prev=>!prev)}>
       <div
         className={`w-[20px] rounded-sm ${
           loan.tipo === "Semanal" ? "bg-green-700" : "bg-red-600"
         }`}
       />
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-1">
         <div className="flex justify-between">
-          <span className="font-bold">{loan.nombre}</span>
-          <span className="font-bold text-blue-600">{loan.fecha}</span>
+          <span className="text-xs sm:text-sm lg:text-base font-bold">{loan.nombre}</span>
+          <span className="text-xs sm:text-sm lg:text-base font-bold text-blue-600">{loan.fecha}</span>
         </div>
-        <div className="grid grid-cols-3">
-          <div className="max-w-[200px]">
-            <span className="font-bold mr-2">Prestamo</span>
-            <span>${loan.saldo}</span>
+        <div className="grid grid-cols-10 gap-4">
+          <div className="col-span-4">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Prestamo</span>
+            <span className="text-xs sm:text-sm lg:text-base ">${loan.saldo}</span>
           </div>
-          <div>
-            <span className="font-bold mr-2">Saldo</span>
-            <span className="text-red-600">${loan.saldo}</span>
+          <div className="col-span-3">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Saldo</span>
+            <span className="text-xs sm:text-sm lg:text-base text-red-600">${loan.saldo}</span>
           </div>
-          <div className="flex justify-end">
-            <span className="font-bold mr-2">Abonos</span>
-            <span>
+          <div className=" col-span-3 flex justify-end">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Abonos</span>
+            <span className="text-xs sm:text-sm lg:text-base ">
               {loan.abonos}/{loan.plazos}
             </span>
           </div>
         </div>
-        <div className={`${toggle ? 'grid':'hidden'} grid-cols-3 transition-opacity ease-in-out delay-150 duration-300`}>
-          <div>
-            <span className="font-bold mr-2">Saldo inicial</span>
-            <span>${loan.cantidadPrestada}</span>
+        <div 
+        className={`${toggle ? 'grid':'hidden'} grid grid-cols-10 gap-4`}>
+          <div className="col-span-4">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Saldo inicial</span>
+            <span className="text-xs sm:text-sm lg:text-base ">${loan.cantidadPrestada}</span>
           </div>
-          <div>
-            <span className="font-bold mr-2">Abonado</span>
-            <span className="text-red-600">${loan.abonado}</span>
+          <div className="col-span-3">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Abonado</span>
+            <span className="text-xs sm:text-sm lg:text-base text-red-600">${loan.abonado}</span>
           </div>
-          <div className="flex justify-end">
-            <span className="font-bold mr-2">Abono</span>
-            <span>
+          <div className="col-span-3 flex justify-end">
+            <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">Abono</span>
+            <span className="text-xs sm:text-sm lg:text-base ">
               {loan.monto}
             </span>
           </div>

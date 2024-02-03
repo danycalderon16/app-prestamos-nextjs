@@ -7,10 +7,14 @@ interface Props {
   loans: Loan[];
 }
 
-export function Loans({loans}:Props) {
+export function Loans({ loans }: Props) {
   return (
-     <>{loans.map(loan=>(
-      <LoanCard key={loan.id} loan={loan}/>
-     ))}</>
+    <div className={`
+     w-full flex flex-col items-center gap-2`}>
+      {loans.map((loan) => (
+        <LoanCard key={loan.id} loan={loan} />
+      ))}
+    </div>
   );
 }
+
