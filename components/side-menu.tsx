@@ -13,7 +13,7 @@ interface Props {
   dataUser: User;
 }
 
-const SideMenu = ({ dataUser }: Props) => {
+export const SideMenu = ({ dataUser }: Props) => {
   const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -87,5 +87,3 @@ const SideMenu = ({ dataUser }: Props) => {
     </>
   );
 };
-
-export default SideMenu;

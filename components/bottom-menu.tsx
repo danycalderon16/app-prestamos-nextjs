@@ -2,10 +2,10 @@
 import React from "react";
 
 import Link from "next/link";
-import { CheckCircle, CircleDollarSign, DollarSign, Trash } from "lucide-react";
 import { ROUTES } from "@/lib/routes";
 import { usePathname } from "next/navigation";
-export const BottomMenu = () => {
+
+const BottomMenu = () => {
   const pathName = usePathname();
   return (
     <div className={`fixed
@@ -39,3 +39,5 @@ export const BottomMenu = () => {
     </div>
   );
 };
+
+export default BottomMenu;
