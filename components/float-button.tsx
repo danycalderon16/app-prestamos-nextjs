@@ -11,7 +11,7 @@ interface Props {
 }
 
 const FloatButton = ({ id }: Props) => {
-  const { onToggle } = useLoans();
+  const { onToggle, saveId } = useLoans();
   return (
     <div
       className={`
@@ -35,19 +35,7 @@ const FloatButton = ({ id }: Props) => {
     `}
       onClick={() => {
         onToggle();
-        //   const dummy:Loan = {
-        //     id:202403024,
-        //     abonado:0,
-        //     abonos:0,
-        //     cantidadPrestada:1000,
-        //     fecha:new Date().toISOString(),
-        //     monto:300,
-        //     nombre:"Alejandro",
-        //     plazos:4,
-        //     saldo:1200,
-        //     tipo: 'Semanal'
-        //   }
-        //
+        saveId(id)
       }}
     >
       <Plus className="text-white" size={40} />

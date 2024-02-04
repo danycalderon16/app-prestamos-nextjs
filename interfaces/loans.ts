@@ -12,3 +12,13 @@ export interface Loan {
   fecha:            string;
   plazos:           number;
 }
+export interface CreateLoan {
+  tipo:             "Quincenal" | "Semanal";
+  nombre:           string;
+  cantidadPrestada: number;
+  monto:            number;
+  fecha:            Date;
+  plazos:           number;
+}
+
+

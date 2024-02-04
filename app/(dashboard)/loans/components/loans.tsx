@@ -10,17 +10,18 @@ interface Props {
 }
 
 export function Loans({ loans }: Props) {
-  const { onToggle, toggle } = useLoans();
+  const { onToggle, toggle, id } = useLoans();
   const [loading, setLoading] = useState(false);
 
   return (
     <div>
       <NewLoanModal
-        title="Agrega un nuevo prestamo"
+        title="Nuevo prestamo"
         isOpen={toggle}
         onClose={() => onToggle()}
         onConfirm={() => onToggle()}
         loading={loading}
+        id= {id}
       />
       <div
       key={""}
