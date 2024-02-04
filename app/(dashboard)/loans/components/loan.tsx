@@ -1,11 +1,6 @@
 "use client"
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
+  Card
 } from "@/components/ui/card";
 import { Loan } from "@/interfaces/loans";
 import React, { useState } from "react";
@@ -18,7 +13,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
 const [toggle, setToggle] = useState(false);
 
   return (
-    <Card className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>setToggle(prev=>!prev)}>
+    <Card key={loan.id} className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>setToggle(prev=>!prev)}>
       <div
         className={`w-[20px] rounded-sm ${
           loan.tipo === "Semanal" ? "bg-green-700" : "bg-red-600"
