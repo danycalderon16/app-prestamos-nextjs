@@ -5,6 +5,7 @@ import BottomMenu from "@/components/bottom-menu";
 import FloatButton from "@/components/float-button";
 import Navbar from "@/components/navbar";
 import { SideMenu } from "@/components/side-menu";
+import SnackBar from "@/components/snack-bar";
 export default async function MainLayout({
   children,
 }: {
@@ -18,6 +19,7 @@ export default async function MainLayout({
       <SideMenu dataUser={dataUser!} />
       <FloatButton id={dataUser?.user_id!} />
       <BottomMenu />
+      <SnackBar/>
     </div>
   );
 }
