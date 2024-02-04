@@ -86,7 +86,10 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
       user_id: id
     }).then(res=>{
       onClose();
-    }).finally(()=>{
+    }).catch(res=>{
+      console.log(res);      
+    })
+    .finally(()=>{
       onClose();
     })
   }

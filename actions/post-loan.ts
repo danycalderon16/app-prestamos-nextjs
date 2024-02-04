@@ -28,11 +28,13 @@ export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
   };
   try {
     const res = await setDoc(
+      // doc(db, `usuarios/${data.user_id}/${id}`),
       doc(db, `usuarios/${data.user_id}/prestamos/${id}`),
       { ...loanPost }
     );
     console.log("Exito: ", res);
   } catch (error) {
     console.error(error);
+    throw new Error("Error al crear el prestamo");
   }
 };

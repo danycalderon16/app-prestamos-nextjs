@@ -24,12 +24,11 @@ export function Loans({ loans }: Props) {
         id= {id}
       />
       <div
-      key={""}
         className={`
      w-full flex flex-col items-center gap-4`}
       >
         {loans.map((loan) => (
-          <LoanCard key={loan.fecha} loan={loan} />
+          <LoanCard key={loan.id} loan={loan} />
         ))}
       </div>
     </div>

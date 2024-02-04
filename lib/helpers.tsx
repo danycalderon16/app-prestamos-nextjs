@@ -1,6 +1,5 @@
 export function generateID(): number {
   let date = new Date();
-  console.log(date.getDate());
   const year = date.getFullYear().toString();
   let month = (date.getMonth() + 1).toString();
   month = Number(month) < 10 ? `0${month}` : month;

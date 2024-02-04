@@ -1,8 +1,5 @@
 "use client";
-import { postLoan } from "@/actions/post-loan";
-import loan from "@/app/(dashboard)/loans/components/loan";
 import useLoans from "@/hooks/useLoans";
-import { Loan } from "@/interfaces/loans";
 import { Plus } from "lucide-react";
 import React from "react";
 
@@ -12,13 +9,12 @@ interface Props {
 
 const FloatButton = ({ id }: Props) => {
   const { onToggle, saveId } = useLoans();
+
   return (
     <div
       className={`
     fixed
     z-90
-    bottom-24
-    md:bottom-6
     right-8
     w-[50px]
     h-[50px]
@@ -32,6 +28,8 @@ const FloatButton = ({ id }: Props) => {
     hover:drop-shadow-2xl
     hover:bg-sky-600
     duratio-300
+    transition-all
+    ease-linear
     `}
       onClick={() => {
         onToggle();
