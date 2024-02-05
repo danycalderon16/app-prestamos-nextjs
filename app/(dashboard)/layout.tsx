@@ -6,12 +6,16 @@ import FloatButton from "@/components/float-button";
 import Navbar from "@/components/navbar";
 import { SideMenu } from "@/components/side-menu";
 import SnackBar from "@/components/snack-bar";
+import { verifyUser } from "@/actions/verify-user";
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const dataUser = getUser();
+ 
+  verifyUser(dataUser!);
+  
   return (
     <div className="md:ml-64 h-full">
       <Navbar dataUser={dataUser!} />

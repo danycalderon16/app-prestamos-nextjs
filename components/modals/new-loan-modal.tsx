@@ -36,9 +36,9 @@ interface NewLoanModalProps {
 const formSchema = z.object({
   name: z.string().min(5, "El nombre es obligatorio"),
   date: z.date(),
-  amount: z.number(),
-  deadlines: z.number(),
-  pays: z.number(),
+  amount: z.coerce.number().int({message:"Ingrese un número"}),
+  deadlines: z.coerce.number().int({message:"Ingrese un número"}),
+  pays:z.coerce.number().int({message:"Ingrese un número"}),
   type: z.enum(["Quincenal", "Semanal"]),
 });
 
@@ -56,9 +56,9 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "Daniel Calderón",
-      amount: 2000,
-      deadlines: 2,
-      pays: 1200,
+      amount: 0,
+      deadlines: 0,
+      pays: 0,
       type: "Quincenal",
     },
   });
@@ -74,7 +74,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const sendLoan:CreateLoan = {
       nombre: values.name,
-      cantidadPrestada: values.amount,
+      cantidadPrestada: +values.amount,
       plazos: values.deadlines,
       tipo: values.type,
       monto: values.pays,
@@ -111,7 +111,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
     >
       <div className="">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" >
             <div className="flex justify-between">
               <FormField
                 control={form.control}
@@ -176,7 +176,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input placeholder="Cantidad" type="number" {...field} />
+                      <Input placeholder="0" {...field }/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -189,7 +189,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Plazos</FormLabel>
                     <FormControl>
-                      <Input placeholder="Plazos" type="number" {...field} />
+                      <Input placeholder="0" {...field}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -204,7 +204,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Pagos</FormLabel>
                     <FormControl>
-                      <Input placeholder="Pagos" type="number" {...field} />
+                      <Input placeholder="0" {...field}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
