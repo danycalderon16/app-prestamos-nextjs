@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientSideProviders>
           <FirestoreProvider>
-            <AuthContextProvider>{children}</AuthContextProvider>
+            {children}
           </FirestoreProvider>
         </ClientSideProviders>
       </body>

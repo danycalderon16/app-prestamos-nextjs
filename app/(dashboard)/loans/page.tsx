@@ -8,8 +8,8 @@ const LoansPage = async() => {
 
   return (
     <div className='m-4'>
+  
       <Loans loans={loans??[]}/>
-
     </div>
   )
 }
