@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,7 +22,7 @@ import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { postLoan } from "@/actions/post-loan";
 import { CreateLoan } from "@/interfaces/loans";
-
+import useNotifications from "@/hooks/useNotifications";
 interface NewLoanModalProps {
   title: string;
   description?: string;
@@ -63,7 +62,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
       type: "Quincenal",
     },
   });
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const { snackBar } = useNotifications();
 
   useEffect(() => {
     setIsMounted(true);
@@ -85,8 +84,18 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
       loan: sendLoan,
       user_id: id
     }).then(res=>{
+      snackBar({
+        message: 'Prestamo crerado',
+        type:"success",
+        time:2000
+      })
       onClose();
     }).catch(res=>{
+      snackBar({
+        message: 'Hubo un error',
+        type:"error",
+        time:2000
+      })
       console.log(res);      
     })
     .finally(()=>{
