@@ -2,12 +2,8 @@ import firebase_app from "@/firebase/config";
 import { CreateLoan, Loan } from "@/interfaces/loans";
 import { UserLoan } from "@/interfaces/userLoan";
 import { generateID, transformDate } from "@/lib/helpers";
-import { throws } from "assert";
 import {
-  Transaction,
-  collection,
   doc,
-  getDocs,
   getFirestore,
   setDoc,
   getDoc,
@@ -39,16 +35,13 @@ export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
     if(!resTotal.exists()){
       throw new Error("No existe el usuario")
     }
-    totals = resTotal.data() as UserLoan;
+    totals = resTotal.data() as UserLoan;    
 
-    console.log({totals});
-    
-
-    // const res = await setDoc(
-    //   // doc(db, `usuarios/${data.user_id}/${id}`),
-    //   doc(db, `usuarios/${data.user_id}/prestamos/${id}`),
-    //   { ...loanPost }
-    // );
+    const res = await setDoc(
+      // doc(db, `usuarios/${data.user_id}/${id}`),
+      doc(db, `usuarios/${data.user_id}/prestamos/${id}`),
+      { ...loanPost }
+    );
 
     const totalGanar = totals.totalGanar +((loanPost.plazos * loanPost.monto ) - loanPost.cantidadPrestada)
     const totalRecuperar = totals.totalRecuperar + loanPost.cantidadPrestada
@@ -58,8 +51,6 @@ export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
       totalRecuperar
     })
     
-
-    // console.log("Exito: ", res);
   } catch (error) {
     console.error(error);
     throw new Error("Error al crear el prestamo");
