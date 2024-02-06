@@ -7,13 +7,13 @@ import Navbar from "@/components/navbar";
 import { SideMenu } from "@/components/side-menu";
 import SnackBar from "@/components/snack-bar";
 import { verifyUser } from "@/actions/verify-user";
+import useLoans from "@/hooks/useLoans";
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const dataUser = getUser();
- 
   verifyUser(dataUser!);
     
   return (
