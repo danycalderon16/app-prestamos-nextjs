@@ -2,7 +2,10 @@
 import {
   Card
 } from "@/components/ui/card";
+import useLoans from "@/hooks/useLoans";
 import { Loan } from "@/interfaces/loans";
+import { Eye } from "lucide-react";
+import { redirect, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface Props {
@@ -11,18 +14,24 @@ interface Props {
 
 const Loan: React.FC<Props> = ({ loan }) => {
 const [toggle, setToggle] = useState(false);
-
+const { id } =useLoans()
+const router = useRouter();
   return (
     <Card key={loan.id} className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>setToggle(prev=>!prev)}>
+      
       <div
         className={`w-[20px] rounded-sm ${
           loan.tipo === "Semanal" ? "bg-green-700" : "bg-red-600"
         }`}
       />
       <div className="w-full flex flex-col gap-1">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <span className="text-xs sm:text-sm lg:text-base font-bold">{loan.nombre}</span>
+          <div className="flex items-center gap-2">
+
           <span className="text-xs sm:text-sm lg:text-base font-bold text-blue-600">{loan.fecha}</span>
+          <Eye className="text-gray-500" onClick={()=>router.push(`/loans/${id}?id=${loan.id}`)}/>
+          </div>
         </div>
         <div className="grid grid-cols-10 gap-4">
           <div className="col-span-4">
