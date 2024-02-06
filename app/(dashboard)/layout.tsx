@@ -15,7 +15,7 @@ export default async function MainLayout({
   const dataUser = getUser();
  
   verifyUser(dataUser!);
-  
+    
   return (
     <div className="md:ml-64 h-full">
       <Navbar dataUser={dataUser!} />

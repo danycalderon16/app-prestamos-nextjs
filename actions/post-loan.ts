@@ -9,6 +9,7 @@ import {
   getDoc,
   updateDoc
 } from "firebase/firestore";
+import { getStats } from "./get-Stats";
 
 export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
   const db = getFirestore(firebase_app);

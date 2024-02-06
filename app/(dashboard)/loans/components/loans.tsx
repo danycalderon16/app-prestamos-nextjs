@@ -4,15 +4,18 @@ import React, { useState } from "react";
 import LoanCard from "./loan";
 import { NewLoanModal } from "@/components/modals/new-loan-modal";
 import useLoans from "@/hooks/useLoans";
+import { UserLoan } from "@/interfaces/userLoan";
 
 interface Props {
   loans: Loan[];
+  stats: UserLoan
 }
 
-export function Loans({ loans }: Props) {
-  const { onToggle, toggle, id } = useLoans();
+export function Loans({ loans, stats }: Props) {
+  const { onToggle, toggle, id, saveStats } = useLoans();
   const [loading, setLoading] = useState(false);
 
+  saveStats(stats)
   return (
     <div>
       <NewLoanModal

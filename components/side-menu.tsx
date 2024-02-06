@@ -3,11 +3,13 @@ import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { AlertModal } from "./modals/alert-modal";
 import Link from "next/link";
-import { CircleDollarSign, CheckCircle, Trash, LogOut } from "lucide-react";
+import { CircleDollarSign, CheckCircle, Trash, LogOut, BarChart3 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { User } from "@/interfaces/user";
 import { ROUTES } from "@/lib/routes";
+import useLoans from "@/hooks/useLoans";
+import { StatsModal } from "./modals/stats-modal";
 
 interface Props {
   dataUser: User;
@@ -17,8 +19,10 @@ export const SideMenu = ({ dataUser }: Props) => {
   const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  // const {loans} = useLoans()
+  // ROUTES[0].stats= loans;
   const pathName = usePathname();
+  const [showStats, setShowStats]= useState<boolean>(false);
 
   return (
     <>
@@ -28,6 +32,13 @@ export const SideMenu = ({ dataUser }: Props) => {
         onClose={() => setOpen(false)}
         onConfirm={() => logOut()}
         loading={loading}
+      />
+
+      <StatsModal
+        title="Estadisticas"
+        isOpen={showStats}
+        onClose={() => setShowStats(false)}        
+        id={dataUser.user_id}
       />
 
       <aside
@@ -53,6 +64,17 @@ export const SideMenu = ({ dataUser }: Props) => {
                 </Link>
               </li>
             ))}
+              <li>
+                <button
+                onClick={()=>setShowStats(true)}
+                  className={`flex items-center p-2 text-gray-900 rounded-lg`}
+                >
+                  <BarChart3 className="text-gray-500" size={30} />
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Estadisticas
+                  </span>
+                </button>
+              </li>
 
             <li className="mt-auto">
               <div>
