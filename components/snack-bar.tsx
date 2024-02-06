@@ -9,17 +9,33 @@ function SnackBar() {
       <div
         className={`
           fixed
-          bottom-0
-          left-[256px]
-          -right-0
+          bottom-20
+          md:bottom-0
+          left-0
+          right-0
+          md:left-[256px]
+          md:-right-0
           h-16
           flex
           items-center 
           text-white  
-          z-50
+          z-50          
           `}
       >
-        <div className=" bg-gray-800 w-full mr-5 ml-5 p-2 pl-4 pr-4 rounded-md drop-shadow-lg flex justify-between">
+        <div className={`
+        text-sm
+        sm:text-base
+        bg-gray-800
+        w-full
+        mr-5
+        ml-5
+        p-2
+        pl-4
+        pr-4
+        rounded-md
+        drop-shadow-lg
+        flex
+        justify-between`}>
           <span>{message}</span>
           {
             type === "error" && (
