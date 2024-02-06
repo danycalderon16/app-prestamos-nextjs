@@ -10,7 +10,7 @@ interface Props {
 
 const FloatButton = ({ id }: Props) => {
   const { onToggle, saveId } = useLoans();
-  const { show} = useNotifications()
+  const { show } = useNotifications()
 
   return (
     <div
@@ -18,7 +18,7 @@ const FloatButton = ({ id }: Props) => {
       fixed
       z-90
       right-8
-      ${show ?'bottom-32':'bottom-24'}
+      ${show ?'bottom-36':'bottom-24'}
       ${show ? 'md:bottom-14':'md:bottom-6'}    
       w-[50px]
       h-[50px]
@@ -37,7 +37,12 @@ const FloatButton = ({ id }: Props) => {
     `}
       onClick={() => {
         onToggle();
-        saveId(id)        
+        saveId(id)   
+        // snackBar({
+        //   message: 'Loan created successfully',
+        //   type:"error",
+        //   time:3000
+        // })     
       }}
     >
       <Plus className="text-white" size={40} />
