@@ -23,6 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { postLoan } from "@/actions/post-loan";
 import { CreateLoan } from "@/interfaces/loans";
 import useNotifications from "@/hooks/useNotifications";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 interface NewLoanModalProps {
   title: string;
   description?: string;
@@ -30,15 +31,15 @@ interface NewLoanModalProps {
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
-  id:string
+  id: string;
 }
 
 const formSchema = z.object({
   name: z.string().min(5, "El nombre es obligatorio"),
   date: z.date(),
-  amount: z.coerce.number().int({message:"Ingrese un número"}),
-  deadlines: z.coerce.number().int({message:"Ingrese un número"}),
-  pays:z.coerce.number().int({message:"Ingrese un número"}),
+  amount: z.coerce.number().int({ message: "Ingrese un número" }),
+  deadlines: z.coerce.number().int({ message: "Ingrese un número" }),
+  pays: z.coerce.number().int({ message: "Ingrese un número" }),
   type: z.enum(["Quincenal", "Semanal"]),
 });
 
@@ -48,7 +49,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
   isOpen,
   onClose,
   loading,
-  id
+  id,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -59,7 +60,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
       amount: 0,
       deadlines: 0,
       pays: 0,
-      type: "Quincenal",
+      type: "Semanal"
     },
   });
   const { snackBar } = useNotifications();
@@ -72,35 +73,37 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
     return null;
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const sendLoan:CreateLoan = {
+    const sendLoan: CreateLoan = {
       nombre: values.name,
       cantidadPrestada: +values.amount,
       plazos: values.deadlines,
       tipo: values.type,
       monto: values.pays,
       fecha: values.date,
-    }
+    };
     postLoan({
       loan: sendLoan,
-      user_id: id
-    }).then(res=>{
-      snackBar({
-        message: 'Prestamo crerado',
-        type:"success",
-        time:2000
-      })
-      onClose();
-    }).catch(res=>{
-      snackBar({
-        message: 'Hubo un error',
-        type:"error",
-        time:2000
-      })
-      console.log(res);      
+      user_id: id,
     })
-    .finally(()=>{
-      onClose();
-    })
+      .then((res) => {
+        snackBar({
+          message: "Prestamo crerado",
+          type: "success",
+          time: 2000,
+        });
+        onClose();
+      })
+      .catch((res) => {
+        snackBar({
+          message: "Hubo un error",
+          type: "error",
+          time: 2000,
+        });
+        console.log(res);
+      })
+      .finally(() => {
+        onClose();
+      });
   }
   return (
     <Modal
@@ -111,8 +114,8 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
     >
       <div className="">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" >
-            <div className="flex justify-between">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
                 name="name"
@@ -155,6 +158,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
+                            showOutsideDays={false}
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
@@ -168,7 +172,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 )}
               />
             </div>
-            <div className="flex justify-between">
+            <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
                 name="amount"
@@ -176,7 +180,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input placeholder="0" {...field }/>
+                      <Input placeholder="0" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -189,14 +193,14 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Plazos</FormLabel>
                     <FormControl>
-                      <Input placeholder="0" {...field}/>
+                      <Input placeholder="0" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="flex justify-between">
+            <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
                 name="pays"
@@ -204,32 +208,50 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Pagos</FormLabel>
                     <FormControl>
-                      <Input placeholder="0" {...field}/>
+                      <Input placeholder="0" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="type"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Tipo de abono</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tipo de abono" {...field} />
+                    <FormControl className="flex h-10">
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Semanal" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Semanal</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Quincenal" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Quincenal
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-            </div>
+                />
+                </div>
             <div className="flex justify-end gap-3">
-
-            <Button disabled={loading} variant="outline" onClick={onClose}>
-              Cancelar
-            </Button>
-            <Button type="submit">Crear</Button>
+              <Button disabled={loading} variant="outline" onClick={onClose}>
+                Cancelar
+              </Button>
+              <Button type="submit">Crear</Button>
             </div>
           </form>
         </Form>
