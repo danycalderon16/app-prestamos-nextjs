@@ -1,6 +1,6 @@
 import { CheckCircle, CircleDollarSign, Trash } from "lucide-react";
 
-export const ROUTES = [
+export let ROUTES = [
   {
     name: "Prestamos",
     path: "/loans",
