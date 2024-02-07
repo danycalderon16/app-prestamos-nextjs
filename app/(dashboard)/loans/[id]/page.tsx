@@ -1,43 +1,43 @@
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
-import useLoans from '@/hooks/useLoans';
-import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
-import React from 'react'
-import { getUser } from '@/lib/utilsServer';
-import { getLoan } from '@/actions/get-loan';
+import useLoans from "@/hooks/useLoans";
+import { redirect, useParams, usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { getUser } from "@/lib/utilsServer";
+import { getLoan } from "@/actions/get-loan";
+import InfoLoan from "./components/info-loan";
+import { NotFuound } from "@/components/not-found";
 
-const Loan = async () => {
-  const headersList = headers();
-  const fullUrl =  headersList.get('referer') || "";
-  console.log({fullUrl});
-  
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: {
+    [x: string]: any;
+    slug: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const userId = params.id;
+  const loanID = searchParams.id?.toString();
 
-  const pathname = fullUrl.split("/")[4];  
-  const id = pathname.split("?")  
-  const user = getUser()
-  if(user?.user_id!==id[0]){
-    redirect("/loans")
+  const user = getUser();
+  if (user?.user_id !== userId) {
+    redirect("/loans");
   }
 
-  const params = pathname.split("=")
-
-  const loan = await getLoan(params[1])
-  if(!loan){
-    return (<>
-    <div>Loan not found</div>
-    </>)
+  const loan = await getLoan(loanID!);
+  if (!loan) {
+    return (
+      <div>
+        <NotFuound text="Prestamo no encontrado" />
+      </div>
+    );
   }
-  
+
   return (
-    <>
-    <div>{loan.fecha}</div>
-    <div>{loan.saldo}</div>
-    <div>{loan.plazos}</div>
-    <div>{loan.abonos}</div>
-    <div>{loan.abonado}</div>
-
-    </>
-  )
+    <div className="w-full flex justify-center ">
+      <InfoLoan loan={loan} />
+    </div>
+  );
 }
-
-export default Loan
