@@ -5,7 +5,7 @@ import {
 import useLoans from "@/hooks/useLoans";
 import { Loan } from "@/interfaces/loans";
 import { Eye } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface Props {

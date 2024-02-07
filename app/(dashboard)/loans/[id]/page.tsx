@@ -27,6 +27,8 @@ export default async function Page({
   }
 
   const loan = await getLoan(loanID!);
+  console.log(loan);
+  
   if (!loan) {
     return (
       <div>
