@@ -26,6 +26,10 @@ export default async function Page({
     redirect("/loans");
   }
 
+  console.log({params, searchParams});
+  console.log({userId,loanID});
+  
+
   const loan = await getLoan(loanID!);
   console.log(loan);
   
