@@ -30,8 +30,6 @@ const initialState: LoansContextInterface = {
   toggle: false,
   saveId: () => {},
   id: "",
-  // loans: 0,
-  // countLoans: () => {},
   stats: INITIALSTATESTATS,
   saveStats: (stats) => {},
 };
@@ -41,7 +39,6 @@ export const LoansContext = createContext(initialState);
 const LoansContextProvider = ({ children }: React.PropsWithChildren) => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
-  const [loans, setLoans] = useState<number>(0);
   const [stats, setStats] = useState<UserLoan>(INITIALSTATESTATS);
 
   const onToggle = () => {
@@ -51,10 +48,6 @@ const LoansContextProvider = ({ children }: React.PropsWithChildren) => {
   const saveId = (id: string) => {
     setId(id);
   };
-
-  // const countLoans = (quantity: number) => {
-  //   setLoans(quantity);
-  // };
 
   const saveStats = (stats: UserLoan) => {
     setStats(stats);
@@ -66,8 +59,6 @@ const LoansContextProvider = ({ children }: React.PropsWithChildren) => {
         toggle,
         saveId,
         id,
-        // loans,
-        // countLoans,
         stats,
         saveStats,
       }}
