@@ -1,7 +1,9 @@
 "use client";
 import useLoans from "@/hooks/useLoans";
 import useNotifications from "@/hooks/useNotifications";
+import usePayments from "@/hooks/usePayments";
 import { Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -9,9 +11,22 @@ interface Props {
 }
 
 const FloatButton = ({ id }: Props) => {
-  const { onToggle, saveId } = useLoans();
-  const { show } = useNotifications()
-  saveId(id)  
+  const path = usePathname();
+
+  const { onToggle: onToggleLoans, saveId } = useLoans();
+  const { onToggle: onTogglePayments } = usePayments();
+  const { show } = useNotifications();
+  saveId(id);
+
+  const onShowModals = () => {
+    if (path === "/loans") {
+      onToggleLoans();
+    } else {
+      console.log("payments");
+      
+      onTogglePayments();
+    }
+  };
 
   return (
     <div
@@ -19,8 +34,8 @@ const FloatButton = ({ id }: Props) => {
       fixed
       z-90
       right-8
-      ${show ?'bottom-36':'bottom-24'}
-      ${show ? 'md:bottom-14':'md:bottom-6'}    
+      ${show ? "bottom-36" : "bottom-24"}
+      ${show ? "md:bottom-14" : "md:bottom-6"}    
       w-[50px]
       h-[50px]
       bg-sky-500
@@ -36,15 +51,7 @@ const FloatButton = ({ id }: Props) => {
       transition-all
       ease-out
     `}
-      onClick={() => {
-        onToggle(); 
-        // snackBar({
-        //   message: 'Loan created successfully',
-        //   type:"error",
-        //   time:3000
-        // })     
-      }}
-    >
+      onClick={() => onShowModals()}>
       <Plus className="text-white" size={40} />
     </div>
   );
