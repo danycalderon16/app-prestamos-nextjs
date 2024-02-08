@@ -1,7 +1,7 @@
 
 
 export interface Payment {
-  fecha: Date;
+  fecha: string;
   id:    number;
   abono: number;
   saldo: number;
