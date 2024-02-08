@@ -14,10 +14,11 @@ interface Props {
 
 const Loan: React.FC<Props> = ({ loan }) => {
 const [toggle, setToggle] = useState(false);
-const { id } =useLoans()
 const router = useRouter();
   return (
-    <Card key={loan.id} className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>setToggle(prev=>!prev)}>
+    <Card key={loan.id} className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer" onClick={()=>{
+      setToggle(prev=>!prev)
+      }}>
       
       <div
         className={`w-[20px] rounded-sm ${
@@ -30,7 +31,9 @@ const router = useRouter();
           <div className="flex items-center gap-2">
 
           <span className="text-xs sm:text-sm lg:text-base font-bold text-blue-600">{loan.fecha}</span>
-          <Eye className="text-gray-500" onClick={()=>router.push(`/loans/${id}?id=${loan.id}`)}/>
+          <Eye className="text-gray-500" onClick={()=>{
+            setToggle(prev=>!prev)
+            router.push(`/loans/${loan.id}`)}}/>
           </div>
         </div>
         <div className="grid grid-cols-10 gap-4">

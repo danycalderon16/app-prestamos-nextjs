@@ -1,38 +1,20 @@
-import { headers } from "next/headers";
 
-import useLoans from "@/hooks/useLoans";
-import { redirect, useParams, usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { getUser } from "@/lib/utilsServer";
-import { getLoan } from "@/actions/get-loan";
+import { getLoan, getPayments } from "@/actions";
 import InfoLoan from "./components/info-loan";
 import { NotFuound } from "@/components/not-found";
+import {PaymentList} from "./components/payments-list";
 
 export default async function Page({
   params,
-  searchParams,
 }: {
   params: {
     [x: string]: any;
     slug: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const userId = params.id;
-  const loanID = searchParams.id?.toString();
-
-  const user = getUser();
-  if (user?.user_id !== userId) {
-    redirect("/loans");
   }
-
-  console.log({params, searchParams});
-  console.log({userId,loanID});
-  
-
-  const loan = await getLoan(loanID!);
-  console.log(loan);
-  
+}) {
+  const loanId = params.id;
+  const loan = await getLoan(loanId!);
   if (!loan) {
     return (
       <div>
@@ -41,9 +23,11 @@ export default async function Page({
     );
   }
 
+  const payments = await getPayments(loanId!);
   return (
-    <div className="w-full flex justify-center ">
+    <div className="w-full flex justify-center flex-col items-center gap-3">
       <InfoLoan loan={loan} />
+      <PaymentList payments={payments??[]} />
     </div>
   );
 }
