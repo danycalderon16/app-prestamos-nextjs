@@ -1,12 +1,13 @@
-export function generateID(): number {
-  let date = new Date();
+export function generateID(date:Date): number {
+  // let date = new Date();
   const year = date.getFullYear().toString();
   let month = (date.getMonth() + 1).toString();
   month = Number(month) < 10 ? `0${month}` : month;
   let day = date.getDate().toString();
   day = Number(day) < 10 ? `0${day}` : day;
   const random = Math.ceil(Math.random() * 9);
-  return Number(year + month + day + random);
+  const random2 = Math.ceil(Math.random() * 9);
+  return Number(year + month + day + random+""+random2);
 }
 
 export function transformDate(date: Date): string {

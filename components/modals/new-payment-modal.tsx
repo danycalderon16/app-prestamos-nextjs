@@ -20,10 +20,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { postLoan } from "@/actions/post-loan";
-import { CreateLoan } from "@/interfaces/loans";
 import useNotifications from "@/hooks/useNotifications";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { CreatePayment } from "@/interfaces/payment";
 interface NewPaymentModalProps {
   title: string;
@@ -64,7 +61,9 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
     const sendLoan: CreatePayment = {
       abono: values.payment,
       fecha: values.date,
+
     };
+    onClose()
   }
 
   return (
@@ -78,6 +77,19 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-2 gap-2">
+            <FormField
+                control={form.control}
+                name="payment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Abono</FormLabel>
+                    <FormControl>
+                      <Input placeholder="0" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="date"
@@ -119,20 +131,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="payment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Plazos</FormLabel>
-                    <FormControl>
-                      <Input placeholder="0" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              />             
             </div>
 
             <div className="flex justify-end gap-3">
