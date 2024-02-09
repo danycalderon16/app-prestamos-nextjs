@@ -13,7 +13,7 @@ import { getStats } from "./get-Stats";
 
 export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
   const db = getFirestore(firebase_app);
-  const id = generateID();
+  const id = generateID(data.loan.fecha);
 
   const loanPost: Loan = {
     id,

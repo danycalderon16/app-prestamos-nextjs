@@ -15,3 +15,6 @@ pnpm i
 pnpm dev
 ```
 
+
+TODO: 
+  actualizar datos de un prestamo al crear un pago (abonos, saldo, abonado.)

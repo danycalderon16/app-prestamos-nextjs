@@ -20,11 +20,10 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { postLoan } from "@/actions/post-loan";
-import { CreateLoan } from "@/interfaces/loans";
 import useNotifications from "@/hooks/useNotifications";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { CreatePayment } from "@/interfaces/payment";
+import { postPayment } from "@/actions/post-payment";
+import useLoans from "@/hooks/useLoans";
 interface NewPaymentModalProps {
   title: string;
   description?: string;
@@ -52,7 +51,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
     },
   });
   const { snackBar } = useNotifications();
-
+  const { currentLoan, id } = useLoans();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -61,10 +60,34 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
     return null;
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const sendLoan: CreatePayment = {
+    const payment: CreatePayment = {
       abono: values.payment,
       fecha: values.date,
+
     };
+    postPayment({
+      payment: payment,
+      loan: currentLoan,
+      user_id: id,
+    }) .then((res) => {
+      snackBar({
+        message: "Pago crerado",
+        type: "success",
+        time: 2000,
+      });
+      onClose();
+    })
+    .catch((res) => {
+      snackBar({
+        message: "Hubo un error",
+        type: "error",
+        time: 2000,
+      });
+      console.log(res);
+    })
+    .finally(() => {
+      onClose();
+    });
   }
 
   return (
@@ -78,6 +101,19 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-2 gap-2">
+            <FormField
+                control={form.control}
+                name="payment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Abono</FormLabel>
+                    <FormControl>
+                      <Input placeholder="0" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="date"
@@ -119,20 +155,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="payment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Plazos</FormLabel>
-                    <FormControl>
-                      <Input placeholder="0" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              />             
             </div>
 
             <div className="flex justify-end gap-3">
