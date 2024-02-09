@@ -1,5 +1,6 @@
 import firebase_app from "@/firebase/config";
 import { CreatePayment, Payment } from "@/interfaces";
+import { Loan } from "@/interfaces/loans";
 import { UserLoan } from "@/interfaces/userLoan";
 import { generateID, transformDate } from "@/lib/helpers";
 import { getUser } from "@/lib/utilsServer";
@@ -11,18 +12,22 @@ import {
   updateDoc
 } from "firebase/firestore";
 
-export const postPayment = async (data: { payment: CreatePayment; loan_id: string }) => {
+export const postPayment = async (data: { payment: CreatePayment; loan_id: string, loan:Loan }) => {
   const db = getFirestore(firebase_app);
-  const id = generateID();
+  const id = generateID(data.payment.fecha);
+
+  const abono  = data.payment.abono;
+
+  const loan = data.loan
 
   const paymentPost: Payment = {
-    abono: data.payment.abono,
+    abono,
     fecha: transformDate(data.payment.fecha),
     id,
-    saldo:0
+    saldo:loan.saldo-abono
   };
   try {
-    let totals:UserLoan;
+    let stats:UserLoan;
 
     const user_id = getUser()?.user_id;
 
@@ -32,21 +37,31 @@ export const postPayment = async (data: { payment: CreatePayment; loan_id: strin
     if(!resTotal.exists()){
       throw new Error("No existe el usuario")
     }
-    totals = resTotal.data() as UserLoan;    
+    stats = resTotal.data() as UserLoan;    
 
     const res = await setDoc(
       // doc(db, `usuarios/${data.user_id}/${id}`),
-      doc(db, `usuarios/${user_id}/prestamos/${id}`),
+      doc(db, `usuarios/${user_id}/prestamos/${data.loan_id}/abonos/${id}`),
       { ...paymentPost }
     );
 
-    // const totalGanar = totals.totalGanar +((loanPost.plazos * loanPost.monto ) - loanPost.cantidadPrestada)
-    // const totalRecuperar = totals.totalRecuperar + loanPost.cantidadPrestada
-    // await updateDoc(userDoc,{
-    //   total: totalGanar + totalRecuperar,
-    //   totalGanar,
-    //   totalRecuperar
-    // })
+    const saldoInicial = loan.plazos*loan.monto
+
+    let totalRecuperar = stats.totalRecuperar;
+    let totalGanar = stats.totalGanar;
+    if(loan.cantidadPrestada-(loan.monto*(loan.abonos+1))>=(saldoInicial-loan.cantidadPrestada)){
+      totalRecuperar = data.payment.abono;
+    }else{
+      const residuo = data.payment.abono - loan.cantidadPrestada-loan.abonos*loan.monto
+      totalRecuperar = stats.totalRecuperar - residuo;
+      totalGanar = stats.totalGanar -(data.payment.abono - residuo);
+    }
+    const total = stats.total - paymentPost.abono;
+    await updateDoc(userDoc,{
+      total,
+      totalGanar,
+      totalRecuperar
+    })
     
   } catch (error) {
     console.error(error);
