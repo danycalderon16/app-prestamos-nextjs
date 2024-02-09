@@ -10,7 +10,6 @@ interface Props {
 
 export function PaymentList({ payments }: Props) {
   const {toggle, onToggle} = usePayments();
-  console.log({toggle});
   
   return (
     <>

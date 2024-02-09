@@ -12,7 +12,7 @@ import {
   updateDoc
 } from "firebase/firestore";
 
-export const postPayment = async (data: { payment: CreatePayment; loan_id: string, loan:Loan }) => {
+export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user_id:string   }) => {
   const db = getFirestore(firebase_app);
   const id = generateID(data.payment.fecha);
 
@@ -29,9 +29,7 @@ export const postPayment = async (data: { payment: CreatePayment; loan_id: strin
   try {
     let stats:UserLoan;
 
-    const user_id = getUser()?.user_id;
-
-    const userDoc = doc(db, `usuarios/${user_id}`);
+    const userDoc = doc(db, `usuarios/${data.user_id}`);
 
     const resTotal = await getDoc(userDoc)
     if(!resTotal.exists()){
@@ -41,20 +39,20 @@ export const postPayment = async (data: { payment: CreatePayment; loan_id: strin
 
     const res = await setDoc(
       // doc(db, `usuarios/${data.user_id}/${id}`),
-      doc(db, `usuarios/${user_id}/prestamos/${data.loan_id}/abonos/${id}`),
+      doc(db, `usuarios/${data.user_id}/prestamos/${loan.id}/abonos/${id}`),
       { ...paymentPost }
     );
 
-    const saldoInicial = loan.plazos*loan.monto
-
+    
     let totalRecuperar = stats.totalRecuperar;
     let totalGanar = stats.totalGanar;
-    if(loan.cantidadPrestada-(loan.monto*(loan.abonos+1))>=(saldoInicial-loan.cantidadPrestada)){
+    
+    if(loan.cantidadPrestada-(loan.monto*(loan.abonos+1))>=0){
       totalRecuperar = data.payment.abono;
     }else{
-      const residuo = data.payment.abono - loan.cantidadPrestada-loan.abonos*loan.monto
+      const residuo = (loan.cantidadPrestada-loan.abonos*loan.monto)
       totalRecuperar = stats.totalRecuperar - residuo;
-      totalGanar = stats.totalGanar -(data.payment.abono - residuo);
+      totalGanar = stats.totalGanar -(data.payment.abono - residuo);;
     }
     const total = stats.total - paymentPost.abono;
     await updateDoc(userDoc,{
