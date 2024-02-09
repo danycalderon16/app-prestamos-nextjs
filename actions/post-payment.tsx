@@ -28,6 +28,8 @@ export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user
   };
   try {
     let stats:UserLoan;
+    console.log(data);
+    
 
     const userDoc = doc(db, `usuarios/${data.user_id}`);
 
@@ -37,12 +39,19 @@ export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user
     }
     stats = resTotal.data() as UserLoan;    
 
+    const loanDoc = doc(db, `usuarios/${data.user_id}/prestamos/${loan.id}`)
+
     const res = await setDoc(
       // doc(db, `usuarios/${data.user_id}/${id}`),
       doc(db, `usuarios/${data.user_id}/prestamos/${loan.id}/abonos/${id}`),
       { ...paymentPost }
     );
 
+    await updateDoc(loanDoc,{
+      abonado: loan.abonado+abono,
+      abonos: loan.abonos+1,
+      saldo: loan.saldo-abono,
+    })
     
     let totalRecuperar = stats.totalRecuperar;
     let totalGanar = stats.totalGanar;
@@ -63,6 +72,6 @@ export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user
     
   } catch (error) {
     console.error(error);
-    throw new Error("Error al crear el prestamo");
+    throw new Error("Error al crear el pago");
   }
 };
