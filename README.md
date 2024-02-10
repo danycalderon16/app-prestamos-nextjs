@@ -17,5 +17,6 @@ pnpm dev
 
 
 TODO: 
-  validar pagos
+  actualizar abonos
   refrescar datos
+  añadir snackbar al borrar
