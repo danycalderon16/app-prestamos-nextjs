@@ -1,4 +1,5 @@
 "use client"
+import { deleteLoan } from "@/actions/delete-loan";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -7,11 +8,18 @@ import {
 } from "@/components/ui/popover";
 import { Loan } from "@/interfaces/loans";
 import { CheckCircle, MoreHorizontal, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 interface Props {
   loan: Loan;
 }
 
 export default function InfoLoan({ loan }: Props) {
+  const router = useRouter()
+  const handlerDeleteLoan = () => {
+    deleteLoan(loan.id.toString(), "6f1enUt2DbZcJPQ33g2NG1RVW8n1").then(res=>
+      router.replace("/loans")
+    );
+  }
   return (
     <div className="flex flex-col w-[380px] sm:w-[500px] mt-5 border p-2 rounded-md shadow-md">
       <div className="flex w-full justify-around items-center">
@@ -72,7 +80,7 @@ export default function InfoLoan({ loan }: Props) {
               </span>
             </button>
             <button
-              onClick={() => {}}
+              onClick={() => handlerDeleteLoan()}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <Trash2 className="text-gray-500" size={20} />

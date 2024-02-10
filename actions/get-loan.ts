@@ -9,9 +9,9 @@ export const getLoan = async (loanId:string) => {
     const user = getUser()
     
     const data = await getDoc(doc(db,`usuarios/${user?.user_id}/prestamos/${loanId}`));
-    const loans = data.data() as Loan;
+    const loan = data.data() as Loan;
 
-    return loans;
+    return loan;
   } catch (error) {
     console.error(error);
     return null;
