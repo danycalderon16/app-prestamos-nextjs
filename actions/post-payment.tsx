@@ -9,37 +9,38 @@ import {
   getFirestore,
   setDoc,
   getDoc,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 
-export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user_id:string   }) => {
+export const postPayment = async (data: {
+  payment: CreatePayment;
+  loan_id:string
+  user_id: string;
+}) => {
   const db = getFirestore(firebase_app);
   const id = generateID(data.payment.fecha);
 
-  const abono  = data.payment.abono;
-
-  const loan = data.loan
-
-  const paymentPost: Payment = {
-    abono,
-    fecha: transformDate(data.payment.fecha),
-    id,
-    saldo:loan.saldo-abono
-  };
   try {
-    let stats:UserLoan;
-    console.log(data);
-    
+    const abono = data.payment.abono;
 
+    const loanDoc = doc(db, `usuarios/${data.user_id}/prestamos/${data.loan_id}`);
     const userDoc = doc(db, `usuarios/${data.user_id}`);
 
-    const resTotal = await getDoc(userDoc)
-    if(!resTotal.exists()){
-      throw new Error("No existe el usuario")
-    }
-    stats = resTotal.data() as UserLoan;    
+    const loan = (await getDoc(loanDoc)).data() as Loan;
+    const paymentPost: Payment = {
+      abono,
+      fecha: transformDate(data.payment.fecha),
+      id,
+      saldo: loan.saldo - abono,
+    };
+    let stats: UserLoan;
+    console.log(data);
 
-    const loanDoc = doc(db, `usuarios/${data.user_id}/prestamos/${loan.id}`)
+    const resTotal = await getDoc(userDoc);
+    if (!resTotal.exists()) {
+      throw new Error("No existe el usuario");
+    }
+    stats = resTotal.data() as UserLoan;
 
     const res = await setDoc(
       // doc(db, `usuarios/${data.user_id}/${id}`),
@@ -47,29 +48,28 @@ export const postPayment = async (data: { payment: CreatePayment, loan:Loan,user
       { ...paymentPost }
     );
 
-    await updateDoc(loanDoc,{
-      abonado: loan.abonado+abono,
-      abonos: loan.abonos+1,
-      saldo: loan.saldo-abono,
-    })
-    
+    await updateDoc(loanDoc, {
+      abonado: loan.abonado + abono,
+      abonos: loan.abonos + 1,
+      saldo: loan.saldo - abono,
+    });
+
     let totalRecuperar = stats.totalRecuperar;
     let totalGanar = stats.totalGanar;
-    
-    if(loan.cantidadPrestada-(loan.monto*(loan.abonos+1))>=0){
+
+    if (loan.cantidadPrestada - loan.monto * (loan.abonos + 1) >= 0) {
       totalRecuperar = data.payment.abono;
-    }else{
-      const residuo = (loan.cantidadPrestada-loan.abonos*loan.monto)
+    } else {
+      const residuo = loan.cantidadPrestada - loan.abonos * loan.monto;
       totalRecuperar = stats.totalRecuperar - residuo;
-      totalGanar = stats.totalGanar -(data.payment.abono - residuo);;
+      totalGanar = stats.totalGanar - (data.payment.abono - residuo);
     }
-    const total = stats.total - paymentPost.abono;
-    await updateDoc(userDoc,{
-      total,
+    // const total = stats.total - paymentPost.abono;
+    await updateDoc(userDoc, {
+      total: totalGanar + totalRecuperar,
       totalGanar,
-      totalRecuperar
-    })
-    
+      totalRecuperar,
+    });
   } catch (error) {
     console.error(error);
     throw new Error("Error al crear el pago");

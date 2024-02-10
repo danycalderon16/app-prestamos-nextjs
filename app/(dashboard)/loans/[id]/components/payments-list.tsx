@@ -17,8 +17,7 @@ export function PaymentList({ payments }: Props) {
   useEffect(() => {
     router.refresh()
   }, [toggle])
-  
-  
+    
   return (
     <>
     <NewPaymentModal

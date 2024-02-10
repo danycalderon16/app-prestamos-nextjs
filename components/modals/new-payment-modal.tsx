@@ -51,7 +51,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
     },
   });
   const { snackBar } = useNotifications();
-  const { currentLoan, id } = useLoans();
+  const { id, currentLoan } = useLoans();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -67,7 +67,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
     };
     postPayment({
       payment: payment,
-      loan: currentLoan,
+      loan_id:currentLoan.id.toString(),
       user_id: id,
     }) .then((res) => {
       snackBar({
