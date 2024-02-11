@@ -2,37 +2,43 @@ import firebase_app from "@/firebase/config";
 import { Payment } from "@/interfaces";
 import { Loan } from "@/interfaces/loans";
 import { UserLoan } from "@/interfaces/userLoan";
-import { getFirestore, getDoc, doc, collection, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 export const deletePayment = async (loanId:string,userId:string,paymentId:string) => {
   try {
     const db = getFirestore(firebase_app)
-
+    
     const path = `usuarios/${userId}/prestamos/${loanId}`
+    
+    const userDoc = doc(db, `usuarios/${userId}`);
+    const loanDoc = doc(db,`${path}`);
+    const paymentDoc = doc(db, `${path}/abonos/${paymentId}`)
 
-    const loanDoc = (doc(db,`${path}`));
+    const user = await getDoc(userDoc)
+    if(!user.exists()){
+      throw new Error("No existe el usuario")
+    }    
+    const stats = user.data() as UserLoan;    
 
     const data = await getDoc(loanDoc);
+    if(!data.exists()){
+      throw new Error("No existe el prestamo");
+    }
     const loan = data.data() as Loan;
 
-    let stats:UserLoan;
-
-    const userDoc = doc(db, `usuarios/${userId}`);
-
-    const resStats = await getDoc(userDoc)
-    if(!resStats.exists()){
-      throw new Error("No existe el usuario")
+    const paymentData = await getDoc(paymentDoc)
+    if(!paymentData.exists()){
+      throw new Error("No existe el abono");
     }
-    stats = resStats.data() as UserLoan;    
-
+    const payment = paymentData.data() as Payment;
 
     let totalRecuperar = stats.totalRecuperar;
     let totalGanar = stats.totalGanar;
     if(loan.abonado<loan.cantidadPrestada){
-      totalRecuperar = totalRecuperar + loan.monto
+      totalRecuperar = totalRecuperar + payment.abono
     }else{
       const residuo = loan.abonado - loan.cantidadPrestada;
-      totalRecuperar = totalRecuperar + (loan.monto - residuo)
+      totalRecuperar = totalRecuperar + (payment.abono - residuo)
       totalGanar = totalGanar - residuo
     }
 
@@ -42,7 +48,13 @@ export const deletePayment = async (loanId:string,userId:string,paymentId:string
       totalRecuperar
     })
 
-    const res = await deleteDoc(doc(db, `${path}/abonos/${paymentId}`))
+    await updateDoc(loanDoc,{
+      abonado: loan.abonado - payment.abono,
+      saldo: loan.saldo + payment.abono,
+      abonos: loan.abonos - 1,
+    })
+
+    const res = await deleteDoc(paymentDoc)
 
     return res;
  

@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useLoans from "@/hooks/useLoans";
+import useNotifications from "@/hooks/useNotifications";
 import { Payment } from "@/interfaces";
 import { MoreVertical, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -19,10 +20,29 @@ interface Props {
 export function Payment({ payment }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const {id, currentLoan} =useLoans();
+  const { snackBar } = useNotifications()
   const router = useRouter();
 
   const confirmDeletePayment = () => {
-    deletePayment(currentLoan.id.toString(),id,payment.id.toString()).then(res=> router.refresh())
+    deletePayment(currentLoan.id.toString(),id,payment.id.toString())
+      .then(res=> {
+        snackBar({
+          message:"Abono borrado correctamente",
+          type:"success",
+          time:2000
+        })
+        router.refresh();
+      })
+      .catch(res=> {
+        snackBar({
+          message:"Hubo un error",
+          type:"error",
+          time:2000
+        })
+        console.error(res);
+      }).finally(()=> {
+        setIsOpen(false)
+      })
   }
   return (
     <>

@@ -83,7 +83,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
         type: "error",
         time: 2000,
       });
-      console.log(res);
+      console.error(res);
     })
     .finally(() => {
       onClose();
