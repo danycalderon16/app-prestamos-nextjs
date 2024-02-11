@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useLoans from "@/hooks/useLoans";
+import useNotifications from "@/hooks/useNotifications";
 import { Loan } from "@/interfaces/loans";
 import { CheckCircle, MoreHorizontal, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -17,13 +18,30 @@ interface Props {
 }
 
 export default function InfoLoan({ loan }: Props) {
-  const router = useRouter()
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
   const {id} = useLoans();
+  const { snackBar } = useNotifications();
   const confitmDeleteLoan = () => {
-    deleteLoan(loan.id.toString(),id).then(res=>
+    deleteLoan(loan.id.toString(),id)
+    .then(res=> {
+      snackBar({
+        message:"Prestamo eliminado correctamente",
+        type:"success",
+        time:2000
+      })
       router.replace("/loans")
-    );
+    })
+    .catch(res=> {
+      snackBar({
+        message:"Hubo un error",
+        type:"error",
+        time:2000
+      })
+      console.error(res);
+    }).finally(()=> {
+      setIsOpen(false)
+    })
   }
   return (
     <>

@@ -21,9 +21,7 @@ const FloatButton = ({ id }: Props) => {
   const onShowModals = () => {
     if (path === "/loans") {
       onToggleLoans();
-    } else {
-      console.log("payments");
-      
+    } else {      
       onTogglePayments();
     }
   };
