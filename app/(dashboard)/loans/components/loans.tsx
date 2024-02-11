@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   loans: Loan[];
-  stats: UserLoan
+  stats?: UserLoan
 }
 
-export function Loans({ loans, stats }: Props) {
+export function Loans({ loans }: Props) {
   const { onToggle, toggle, id, saveStats } = useLoans();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -22,7 +22,7 @@ export function Loans({ loans, stats }: Props) {
   }, [toggle])
   
 
-  saveStats(stats)
+  // saveStats(stats)
   return (
     <div>
       <NewLoanModal
