@@ -13,16 +13,13 @@ interface Props {
 }
 
 export function Loans({ loans }: Props) {
-  const { onToggle, toggle, id, saveStats } = useLoans();
-  const [loading, setLoading] = useState(false);
+  const { onToggle, toggle, id } = useLoans();
   const router = useRouter();
 
   useEffect(() => {
     router.refresh();
   }, [toggle])
   
-
-  // saveStats(stats)
   return (
     <div>
       <NewLoanModal
@@ -30,7 +27,7 @@ export function Loans({ loans }: Props) {
         isOpen={toggle}
         onClose={() => onToggle()}
         onConfirm={() => onToggle()}
-        loading={loading}
+        loading={false}
         id= {id}
       />
       <div
