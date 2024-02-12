@@ -1,5 +1,6 @@
 "use client"
 import { deleteLoan } from "@/actions/delete-loan";
+import { postCompleteLoan } from "@/actions/post-complete-loan";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,7 @@ export default function InfoLoan({ loan }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const {id} = useLoans();
   const { snackBar } = useNotifications();
+
   const confitmDeleteLoan = () => {
     deleteLoan(loan.id.toString(),id)
     .then(res=> {
@@ -43,6 +45,28 @@ export default function InfoLoan({ loan }: Props) {
       setIsOpen(false)
     })
   }
+
+  const confirmCompleteLoan = () => {
+    postCompleteLoan({
+      loan,
+      user_id:id
+    }).then((res)=>{
+      snackBar({
+        message:"Prestamo completado correctamente",
+        type:"success",
+        time:2000
+      })
+    }).catch(res=> {     
+      snackBar({
+        message:res.message,
+        type:"error",
+        time:2000
+      })
+    }).finally(()=> {
+      setIsOpen(false)
+    })
+  }
+
   return (
     <>
     
@@ -104,7 +128,7 @@ export default function InfoLoan({ loan }: Props) {
             </PopoverTrigger>
             <PopoverContent>
             <button
-              onClick={() =>{}}
+              onClick={() => confirmCompleteLoan()}
               className={`flex items-center p-2 text-gray-900 rounded-lg`}
             >
               <CheckCircle className="text-gray-500" size={20} />
