@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { UserLoan } from "@/interfaces/userLoan";
 import { getStats } from "@/actions/get-Stats";
 import useLoans from "@/hooks/useLoans";
+import { useRouter } from "next/navigation";
 
 interface StatsModalProps {
   title: string;
@@ -31,25 +32,27 @@ export const StatsModal: React.FC<StatsModalProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const { id } = useLoans();
+  const router = useRouter();
 
   const [stats, setstats] = useState<UserLoan>(INITIALSTATESTATS);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsMounted(true);
+    router.refresh();
     getStats(id)
-      .then((res) => {
-        setstats(res);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
+    .then((res) => {
+      setstats(res);
+    })
+    .catch((err) => {
+      setError(err);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+    setIsMounted(true);
+  }, [id]);
+  
   if (!isMounted) {
     return null;
   }
