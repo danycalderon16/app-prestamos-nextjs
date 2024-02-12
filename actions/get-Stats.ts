@@ -10,9 +10,6 @@ export const getStats = async (user_id:string) => {
   // const user = getUser()
   try {
     let totals:UserLoan;
-    console.log("hola");
-    
-
     const userDoc = doc(db, `usuarios/${user_id}`);
 
     const resTotal = await getDoc(userDoc)

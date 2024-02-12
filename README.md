@@ -17,6 +17,5 @@ pnpm dev
 
 
 TODO: 
-  actualizar abonos
-  refrescar datos
-  añadir snackbar al borrar
+  modificar interface de completados
+  modificar diseño
