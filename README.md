@@ -17,5 +17,6 @@ pnpm dev
 
 
 TODO: 
-  modificar interface de completados
-  modificar diseño
+  eliminar completados
+  agregar eliminados
+  

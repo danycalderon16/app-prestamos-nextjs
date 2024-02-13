@@ -1,5 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { Loan } from "@/interfaces/loans";
+import { CompletedLoan } from "@/interfaces";
 import { UserLoan } from "@/interfaces/userLoan";
 import {
   doc,
@@ -10,24 +10,23 @@ import {
 } from "firebase/firestore";
 
 export const postCompleteLoan = async (data: {
-  loan: Loan;
+  completedLoan: CompletedLoan;
   user_id: string;
 }) => {
   const db = getFirestore(firebase_app);
 
+  console.log({data});
+  
   try {
     let totals: UserLoan;
-    const loanDoc = doc(
-      db,
-      `usuarios/${data.user_id}/completados/${data.loan.id}`
-    );
+    const loanDoc = doc(db,`usuarios/${data.user_id}/completados/${data.completedLoan.id}` );
+    const userDoc = doc(db, `usuarios/${data.user_id}`);
+
     const possibleDoc = await getDoc(loanDoc);
 
     if (possibleDoc.exists()) {
       throw new Error("El prestamo ya está completado");
     }
-
-    const userDoc = doc(db, `usuarios/${data.user_id}`);
 
     const resTotal = await getDoc(userDoc);
     if (!resTotal.exists()) {
@@ -37,11 +36,10 @@ export const postCompleteLoan = async (data: {
 
     const res = await setDoc(
       loanDoc,
-      data.loan
+      data.completedLoan
     );
 
-    const rendimeintos =
-      data.loan.plazos * data.loan.monto - data.loan.cantidadPrestada;
+    const rendimeintos = data.completedLoan.cantidadPrestada;
     await updateDoc(userDoc, {
       totalCompletado: totals.totalCompletado + rendimeintos,
     });
