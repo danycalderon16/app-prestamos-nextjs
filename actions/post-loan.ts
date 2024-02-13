@@ -9,11 +9,13 @@ import {
   getDoc,
   updateDoc
 } from "firebase/firestore";
-import { getStats } from "./get-Stats";
 
 export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
   const db = getFirestore(firebase_app);
   const id = generateID(data.loan.fecha);
+
+  console.log({data:data.loan});
+  
 
   const loanPost: Loan = {
     id,

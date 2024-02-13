@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/popover";
 import useLoans from "@/hooks/useLoans";
 import useNotifications from "@/hooks/useNotifications";
+import { CompletedLoan } from "@/interfaces";
 import { Loan } from "@/interfaces/loans";
+import { transformDate } from "@/lib/helpers";
 import { CheckCircle, MoreHorizontal, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -47,8 +49,16 @@ export default function InfoLoan({ loan }: Props) {
   }
 
   const confirmCompleteLoan = () => {
+    const completedLoan: CompletedLoan = {
+      id:loan.id,
+      fecha_final: transformDate(new Date),
+      fecha_prestamo: loan.fecha,
+      nombre: loan.nombre,
+      cantidadPrestada: loan.monto,
+      ganancia: (loan.monto*loan.plazos) - loan.cantidadPrestada,
+    }
     postCompleteLoan({
-      loan,
+      completedLoan,
       user_id:id
     }).then((res)=>{
       snackBar({

@@ -18,10 +18,10 @@ export default async function Complete() {
           })}</span>
       </div>
       <div>
-        {loansCompleted?.map(loan=>(
+        {loansCompleted?.map(loanCompleted=>(
           <Completed 
-            key={loan.id}
-            loan={loan}
+            key={loanCompleted.id}
+            loanCompleted={loanCompleted}
           />
         ))}
       </div>
