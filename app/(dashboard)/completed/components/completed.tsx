@@ -10,7 +10,6 @@ interface Props {
 
 export default function Completed({ loanCompleted }: Props) {
   const [showMore, setShowMore] = useState(false);
-  console.log(loanCompleted);
   
   return (
     <div className="shadow-md p-2 rounded-md cursor-pointer" onClick={()=>setShowMore(prev => !prev)}>
