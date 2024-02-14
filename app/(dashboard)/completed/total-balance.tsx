@@ -42,8 +42,7 @@ export default function TotalBalance({ total }: Props) {
         ) : (
           <div className="flex">
           {Array.from({ length: 5 }).map((val,index)=>(
-            <Dot size={30} className="text-gray-600"/>
-            
+            <Dot size={30} className="text-gray-600" key={index}/>            
           ))}
           </div>
         )}
