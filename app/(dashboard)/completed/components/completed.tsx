@@ -1,8 +1,12 @@
 "use client";
 
+import { deleteCompleted } from "@/actions/delete-completed";
 import { AlertModal } from "@/components/modals/alert-modal";
+import useLoans from "@/hooks/useLoans";
+import useNotifications from "@/hooks/useNotifications";
 import { CompletedLoan } from "@/interfaces";
 import { ChevronUp, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
@@ -12,9 +16,32 @@ interface Props {
 export default function Completed({ loanCompleted }: Props) {
   const [showMore, setShowMore] = useState(false);
   const [open, setOpen] = useState(false);
+  const {id} = useLoans();
+  const router = useRouter();
+  const { snackBar } = useNotifications();
 
   const handleDelete = () => {
     setShowMore((prev) => !prev)
+    deleteCompleted(loanCompleted.id.toString(),id) .then((res) => {
+      snackBar({
+        message: "Prestamo crerado",
+        type: "success",
+        time: 2000,
+      });
+      setOpen(false);
+      router.refresh();
+    })
+    .catch((res) => {
+      snackBar({
+        message: "Hubo un error",
+        type: "error",
+        time: 2000,
+      });
+      console.log(res);
+    })
+    .finally(() => {
+      setOpen(false);
+    });
   }
 
   return (

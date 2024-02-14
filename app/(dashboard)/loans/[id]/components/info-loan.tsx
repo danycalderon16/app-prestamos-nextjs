@@ -54,7 +54,7 @@ export default function InfoLoan({ loan }: Props) {
       fecha_final: transformDate(new Date),
       fecha_prestamo: loan.fecha,
       nombre: loan.nombre,
-      cantidadPrestada: loan.monto,
+      cantidadPrestada: (loan.monto*loan.plazos),
       ganancia: (loan.monto*loan.plazos) - loan.cantidadPrestada,
     }
     postCompleteLoan({

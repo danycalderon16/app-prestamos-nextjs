@@ -17,6 +17,5 @@ pnpm dev
 
 
 TODO: 
-  eliminar completados
-  agregar eliminados
+  solucionar bugs de datos en completados
   
