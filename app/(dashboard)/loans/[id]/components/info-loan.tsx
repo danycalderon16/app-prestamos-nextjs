@@ -64,7 +64,11 @@ export default function InfoLoan({ loan }: Props) {
       snackBar({
         message:"Prestamo completado correctamente",
         type:"success",
-        time:2000
+        time:2000,
+        action:{
+          href:"/completed",
+          text:"Ver prestamos completados"
+        }
       })
     }).catch(res=> {     
       snackBar({

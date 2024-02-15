@@ -1,9 +1,11 @@
 "use client";
 import useNotifications from "@/hooks/useNotifications";
+import Link from "next/link";
 import React from "react";
 
 function SnackBar() {
-  const { show, message, type } = useNotifications();
+  const { show, message, type, action } = useNotifications();
+  
   if (show) {
     return (
       <div
@@ -38,10 +40,15 @@ function SnackBar() {
         justify-between`}>
           <span>{message}</span>
           {
-            type === "error" && (
+            type === "error" ? (
               <span className="text-yellow-300">Inténtelo otra vez</span>
+            ) : 
+            action && (
+              <>
+                <Link className="text-yellow-300 underline" href={action.href}>{action.text}</Link>
+              </>
             )
-          }
+}
         </div>
       </div>
     );
