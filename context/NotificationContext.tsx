@@ -6,6 +6,7 @@ interface NotificationsContextInterface {
   show: boolean;
   message: string;  
   type: "success"|"error";
+  action: { href: string; text: string; } | undefined;
   // snackbar: ({message: string,type:string,time:number}) => void;
   snackBar: ({
     message,
@@ -15,6 +16,10 @@ interface NotificationsContextInterface {
     message: string;
     type: "success"|"error";
     time: number;
+    action?: {
+      href: string,
+      text: string,
+    }
   }) => void;
 }
 
@@ -22,7 +27,8 @@ const initialState: NotificationsContextInterface = {
   show: false,
   message:"",
   type:"success",
-  snackBar: ({ message, type, time }) => {},
+  action: undefined,
+  snackBar: ({ message, type, time, action }) => {},
 };
 
 export const NotificationsContext = createContext(initialState);
@@ -34,10 +40,11 @@ const NotificationsContextProvider = ({
   const [message, setMessage] = useState<string>("");
   const [type, setType] = useState<"success"|"error">("success");
   const [time, setTime] = useState(3000)
+  const [action, setAction] = useState<{ href: string; text: string; } | undefined>(undefined);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setShow(false);
+      // setShow(false);
     }, time);
     return () => {
       clearTimeout(timeout);
@@ -48,15 +55,21 @@ const NotificationsContextProvider = ({
     message,
     type,
     time,
+    action
   }: {
     message: string;
     type: "success"|"error";
     time: number;
-  }) => {
+    action?: {
+      href: string,
+      text: string,
+    }
+  }) => {    
     setShow(true);
     setTime(time);
     setType(type);
     setMessage(message);  
+    setAction(action);
   };
 
   return (
@@ -65,6 +78,7 @@ const NotificationsContextProvider = ({
         show,
         message,
         type,
+        action,
         snackBar,
       }}
     >

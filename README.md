@@ -17,5 +17,6 @@ pnpm dev
 
 
 TODO: 
-  solucionar bugs de datos en completados
+  restaurar prestamos
+    checar stast
   

@@ -15,8 +15,6 @@ export const postCompleteLoan = async (data: {
 }) => {
   const db = getFirestore(firebase_app);
 
-  console.log({data});
-  
   try {
     let totals: UserLoan;
     const loanDoc = doc(db,`usuarios/${data.user_id}/completados/${data.completedLoan.id}` );
@@ -39,7 +37,7 @@ export const postCompleteLoan = async (data: {
       data.completedLoan
     );
 
-    const rendimeintos = data.completedLoan.cantidadPrestada;
+    const rendimeintos = data.completedLoan.ganancia;
     await updateDoc(userDoc, {
       totalCompletado: totals.totalCompletado + rendimeintos,
     });

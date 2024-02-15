@@ -1,4 +1,5 @@
 "use client"
+import { deleteDeleted } from "@/actions/delete-deleted";
 import { deleteLoan } from "@/actions/delete-loan";
 import { postCompleteLoan } from "@/actions/post-complete-loan";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -13,7 +14,7 @@ import useNotifications from "@/hooks/useNotifications";
 import { CompletedLoan } from "@/interfaces";
 import { Loan } from "@/interfaces/loans";
 import { transformDate } from "@/lib/helpers";
-import { CheckCircle, MoreHorizontal, Trash2 } from "lucide-react";
+import { ArchiveRestoreIcon, CheckCircle, MoreHorizontal, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 interface Props {
@@ -27,14 +28,14 @@ export default function InfoLoan({ loan }: Props) {
   const { snackBar } = useNotifications();
 
   const confitmDeleteLoan = () => {
-    deleteLoan(loan.id.toString(),id)
+    deleteDeleted(loan.id.toString(),id)
     .then(res=> {
       snackBar({
         message:"Prestamo eliminado correctamente",
         type:"success",
         time:2000
       })
-      router.replace("/loans")
+      router.replace("/deletes")
     })
     .catch(res=> {
       snackBar({
@@ -64,11 +65,7 @@ export default function InfoLoan({ loan }: Props) {
       snackBar({
         message:"Prestamo completado correctamente",
         type:"success",
-        time:2000,
-        action:{
-          href:"/completed",
-          text:"Ver prestamos completados"
-        }
+        time:2000
       })
     }).catch(res=> {     
       snackBar({
@@ -145,9 +142,9 @@ export default function InfoLoan({ loan }: Props) {
               onClick={() => confirmCompleteLoan()}
               className={`flex items-center p-2 text-gray-900 rounded-lg`}
             >
-              <CheckCircle className="text-gray-500" size={20} />
+              <ArchiveRestoreIcon className="text-gray-500" size={20} />
               <span className="flex-1 ms-3 whitespace-nowrap">
-                Marcar como completado
+                Restaurar prestamo
               </span>
             </button>
             <button

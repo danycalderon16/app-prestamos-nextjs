@@ -15,7 +15,7 @@ const FloatButton = ({ id }: Props) => {
 
   const { onToggle: onToggleLoans, saveId } = useLoans();
   const { onToggle: onTogglePayments } = usePayments();
-  const { show } = useNotifications();
+  const { show,snackBar } = useNotifications();
   saveId(id);
 
   const onShowModals = () => {
@@ -29,6 +29,7 @@ const FloatButton = ({ id }: Props) => {
   return (
     <div
       className={`
+      ${!path.startsWith("/loans") && 'hidden'}
       fixed
       z-90
       right-8
@@ -49,7 +50,14 @@ const FloatButton = ({ id }: Props) => {
       transition-all
       ease-out
     `}
-      onClick={() => onShowModals()}>
+      onClick={() => {
+      //   snackBar({message:"Selecciona un prestamo",type:"success",time:3000,
+      // action:{
+      //   text:"Ir a completados",
+      //   href:"/completed"
+      // }})
+        onShowModals()
+        }}>
       <Plus className="text-white" size={40} />
     </div>
   );

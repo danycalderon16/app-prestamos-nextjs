@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function TotalBalance({ total }: Props) {
-  console.log(total);
   
   const [view, setView] = useState(true);
   return (
