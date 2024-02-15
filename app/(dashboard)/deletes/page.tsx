@@ -1,7 +1,11 @@
-export default function DeletePage() {
+import { getDeletes } from "@/actions/get-deletes";
+import { DeletesLoans } from "./components/loans";
+
+export default async function DeletePage() {
+  const deletes = await getDeletes();
   return (
-    <div>
-      <h1>Delete Component</h1>
+    <div className="m-4">
+      <DeletesLoans deletes={deletes??[]} />
     </div>
   );
 }

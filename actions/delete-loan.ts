@@ -23,6 +23,7 @@ export const deleteLoan = async (loanId:string,userId:string) => {
     getDocs(collection(db,`${path}/abonos`)).then((res:any)=>{
       res.docs.map((pay:any)=>{
         const payment = pay.data() as Payment;
+        setDoc(doc(db, `usuarios/${userId}/eliminados/${loanId}/abonos/${payment.id}`),payment)
         deleteDoc(doc(db,`${path}/abonos/${payment.id}`));
       })
     })

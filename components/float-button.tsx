@@ -29,6 +29,7 @@ const FloatButton = ({ id }: Props) => {
   return (
     <div
       className={`
+      ${!path.startsWith("/loans") && 'hidden'}
       fixed
       z-90
       right-8
