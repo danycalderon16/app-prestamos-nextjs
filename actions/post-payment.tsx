@@ -58,11 +58,11 @@ export const postPayment = async (data: {
     let totalGanar = stats.totalGanar;
 
     if (loan.cantidadPrestada - loan.monto * (loan.abonos + 1) >= 0) {
-      totalRecuperar = data.payment.abono;
+      totalRecuperar = totalRecuperar - data.payment.abono;
     } else {
       const residuo = loan.cantidadPrestada - loan.abonos * loan.monto;
-      totalRecuperar = stats.totalRecuperar - residuo;
-      totalGanar = stats.totalGanar - (data.payment.abono - residuo);
+      totalRecuperar = totalRecuperar - residuo;
+      totalGanar = totalGanar - (data.payment.abono - residuo);
     }
     // const total = stats.total - paymentPost.abono;
     await updateDoc(userDoc, {
