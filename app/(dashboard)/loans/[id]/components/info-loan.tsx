@@ -86,7 +86,6 @@ export default function InfoLoan({ loan }: Props) {
     
     <AlertModal
         title="¿Estás seguro de cerrar borrar este prestamo?"
-        description="Esta acción no se podrá deshacer"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={confitmDeleteLoan}
