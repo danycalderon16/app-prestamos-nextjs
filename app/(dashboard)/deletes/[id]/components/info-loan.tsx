@@ -2,6 +2,7 @@
 import { deleteDeleted } from "@/actions/delete-deleted";
 import { deleteLoan } from "@/actions/delete-loan";
 import { postCompleteLoan } from "@/actions/post-complete-loan";
+import { restoreLoan } from "@/actions/restore-loan";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,25 +29,25 @@ export default function InfoLoan({ loan }: Props) {
   const { snackBar } = useNotifications();
 
   const confitmDeleteLoan = () => {
-    deleteDeleted(loan.id.toString(),id)
-    .then(res=> {
-      snackBar({
-        message:"Prestamo eliminado correctamente",
-        type:"success",
-        time:2000
-      })
-      router.replace("/deletes")
-    })
-    .catch(res=> {
-      snackBar({
-        message:"Hubo un error",
-        type:"error",
-        time:2000
-      })
-      console.error(res);
-    }).finally(()=> {
-      setIsOpen(false)
-    })
+    // restoreLoan(loan.id.toString(),id)
+    // .then(res=> {
+    //   snackBar({
+    //     message:"Prestamo eliminado correctamente",
+    //     type:"success",
+    //     time:2000
+    //   })
+    //   router.replace("/deletes")
+    // })
+    // .catch(res=> {
+    //   snackBar({
+    //     message:"Hubo un error",
+    //     type:"error",
+    //     time:2000
+    //   })
+    //   console.error(res);
+    // }).finally(()=> {
+    //   setIsOpen(false)
+    // })
   }
 
   const confirmCompleteLoan = () => {
