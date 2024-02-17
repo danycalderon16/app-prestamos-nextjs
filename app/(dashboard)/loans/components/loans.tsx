@@ -26,7 +26,6 @@ export function Loans({ loans }: Props) {
         title="Nuevo prestamo"
         isOpen={toggle}
         onClose={() => onToggle()}
-        onConfirm={() => onToggle()}
         loading={false}
         id= {id}
       />

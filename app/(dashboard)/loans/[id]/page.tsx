@@ -27,7 +27,7 @@ export default async function Page({
   return (
     <div className="w-full flex justify-center flex-col items-center gap-3">
       <InfoLoan loan={loan} />
-      <PaymentList payments={payments??[]} />
+      <PaymentList payments={payments??[]} loan={loan} />
     </div>
   );
 }

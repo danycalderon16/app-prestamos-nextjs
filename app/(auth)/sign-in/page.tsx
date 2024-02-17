@@ -1,11 +1,7 @@
 "use client";
 // import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import React from "react";
-import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithRedirect } from "firebase/auth";
-import firebase from "firebase/compat/app";
-import firebase_app from "@/firebase/config";
 import { UserAuth } from "@/context/AuthContext";
 
 export default function Page() {

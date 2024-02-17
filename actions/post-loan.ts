@@ -14,9 +14,6 @@ export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
   const db = getFirestore(firebase_app);
   const id = generateID(data.loan.fecha);
 
-  console.log({data:data.loan});
-  
-
   const loanPost: Loan = {
     id,
     abonado: 0,

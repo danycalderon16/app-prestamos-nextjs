@@ -29,7 +29,6 @@ interface NewLoanModalProps {
   description?: string;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
   loading: boolean;
   id: string;
 }
@@ -56,11 +55,12 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Daniel Calderón",
+      name: "",
       amount: 0,
       deadlines: 0,
       pays: 0,
-      type: "Semanal"
+      type: "Semanal",
+      date: new Date(),
     },
   });
   const { snackBar } = useNotifications();
@@ -123,7 +123,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Nombre" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -221,7 +221,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Tipo de abono</FormLabel>
-                    <FormControl className="flex h-10">
+                    <FormControl className="flex h-10 ml-2">
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -248,7 +248,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 />
                 </div>
             <div className="flex justify-end gap-3">
-              <Button disabled={loading} variant="outline" onClick={onClose}>
+              <Button disabled={loading} variant="outline" type="button" onClick={onClose}>
                 Cancelar
               </Button>
               <Button type="submit">Crear</Button>
