@@ -29,6 +29,7 @@ interface NewPaymentModalProps {
   description?: string;
   isOpen: boolean;
   onClose: () => void;
+  amount:number
 }
 
 const formSchema = z.object({
@@ -41,13 +42,15 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
   description,
   isOpen,
   onClose,
+  amount
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      payment: 0,
+      payment: amount,
+      date: new Date(),
     },
   });
   const { snackBar } = useNotifications();
@@ -108,7 +111,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
                   <FormItem>
                     <FormLabel>Abono</FormLabel>
                     <FormControl>
-                      <Input placeholder="0" {...field} />
+                      <Input placeholder="0" {...field} disabled  />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
