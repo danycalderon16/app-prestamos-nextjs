@@ -44,7 +44,7 @@ const NotificationsContextProvider = ({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // setShow(false);
+      setShow(false);
     }, time);
     return () => {
       clearTimeout(timeout);

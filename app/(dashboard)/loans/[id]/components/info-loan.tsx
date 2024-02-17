@@ -23,6 +23,9 @@ interface Props {
 export default function InfoLoan({ loan }: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
+  const [toggleOption, setToggleOption] = useState<"COMPLETE" | "DELETE" | "">(
+    ""
+  );
   const {id} = useLoans();
   const { snackBar } = useNotifications();
 
@@ -82,13 +85,16 @@ export default function InfoLoan({ loan }: Props) {
   }
 
   return (
-    <>
-    
+    <>    
     <AlertModal
-        title="¿Estás seguro de cerrar borrar este prestamo?"
+        title={`¿Está seguro de ${
+          toggleOption === "COMPLETE" ? "marcar como completado este" : "eliminar"
+        } este prestamo?`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onConfirm={confitmDeleteLoan}
+        onConfirm={()=>{
+          toggleOption === "DELETE" ? confitmDeleteLoan() : confirmCompleteLoan()
+        }}
         loading={false}
       />
     <div className="flex flex-col w-[380px] sm:w-[500px] mt-5 border p-2 rounded-md shadow-md">
@@ -141,7 +147,10 @@ export default function InfoLoan({ loan }: Props) {
             </PopoverTrigger>
             <PopoverContent>
             <button
-              onClick={() => confirmCompleteLoan()}
+               onClick={() => {
+                setToggleOption("COMPLETE");
+                setIsOpen(true);
+              }}
               className={`flex items-center p-2 text-gray-900 rounded-lg`}
             >
               <CheckCircle className="text-gray-500" size={20} />
@@ -150,7 +159,10 @@ export default function InfoLoan({ loan }: Props) {
               </span>
             </button>
             <button
-              onClick={() => setIsOpen(true)}
+               onClick={() => {
+                setToggleOption("DELETE");
+                setIsOpen(true);
+              }}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <Trash2 className="text-gray-500" size={20} />
