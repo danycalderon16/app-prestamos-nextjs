@@ -42,10 +42,10 @@ export const restoreLoan = async (loanId:string,userId:string) => {
     let totalRecuperar = stats.totalRecuperar;
     let totalGanar = stats.totalGanar;
     if(loan.abonado<loan.cantidadPrestada){
-      totalRecuperar = totalRecuperar - (loan.cantidadPrestada - loan.abonado)
-      totalGanar = totalGanar - ((loan.plazos * loan.monto - loan.cantidadPrestada))
+      totalRecuperar = totalRecuperar + (loan.cantidadPrestada - loan.abonado)
+      totalGanar = totalGanar + ((loan.plazos * loan.monto - loan.cantidadPrestada))
     }else{
-      totalGanar = totalGanar - (loan.plazos * loan.monto - loan.abonado)
+      totalGanar = totalGanar + loan.saldo
     }
 
     await updateDoc(userDoc,{
