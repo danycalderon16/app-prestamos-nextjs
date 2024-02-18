@@ -1,7 +1,6 @@
 import firebase_app from "@/firebase/config";
 import { Payment } from "@/interfaces";
-import { Loan } from "@/interfaces/loans";
-import { getFirestore, getDoc, doc, collection, getDocs, deleteDoc } from "firebase/firestore";
+import { getFirestore, doc, collection, getDocs, deleteDoc } from "firebase/firestore";
 
 export const deleteDeleted = async (loanId:string,userId:string) => {
   try {
@@ -10,9 +9,6 @@ export const deleteDeleted = async (loanId:string,userId:string) => {
     const path = `usuarios/${userId}/eliminados/${loanId}`
 
     const loanDoc = (doc(db,`${path}`));
-
-    const data = await getDoc(loanDoc);
-    const loan = data.data() as Loan;
 
     getDocs(collection(db,`${path}/abonos`)).then((res:any)=>{
       res.docs.map((pay:any)=>{

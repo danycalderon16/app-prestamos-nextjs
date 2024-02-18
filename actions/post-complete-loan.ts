@@ -1,6 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { CompletedLoan } from "@/interfaces";
-import { UserLoan } from "@/interfaces/userLoan";
+import { CompletedLoan, UserLoan } from "@/interfaces";
 import {
   doc,
   getFirestore,
@@ -32,7 +31,7 @@ export const postCompleteLoan = async (data: {
     }
     totals = resTotal.data() as UserLoan;
 
-    const res = await setDoc(
+    await setDoc(
       loanDoc,
       data.completedLoan
     );

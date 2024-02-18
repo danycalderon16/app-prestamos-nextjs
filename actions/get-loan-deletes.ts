@@ -1,5 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { Loan } from "@/interfaces/loans";
+import { Loan } from "@/interfaces";
 import { getUser } from "@/lib/utilsServer";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 

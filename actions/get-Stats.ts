@@ -1,5 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { UserLoan } from "@/interfaces/userLoan";
+import { UserLoan } from "@/interfaces";
 import {
   doc,
   getFirestore,
@@ -7,7 +7,6 @@ import {
 
 export const getStats = async (user_id:string) => {
   const db = getFirestore(firebase_app); 
-  // const user = getUser()
   try {
     let totals:UserLoan;
     const userDoc = doc(db, `usuarios/${user_id}`);

@@ -162,7 +162,7 @@ export const NewPaymentModal: React.FC<NewPaymentModalProps> = ({
             </div>
 
             <div className="flex justify-end gap-3">
-              <Button variant="outline" onClick={onClose}>
+              <Button variant="outline" type="button" onClick={onClose}>
                 Cancelar
               </Button>
               <Button type="submit">Crear</Button>

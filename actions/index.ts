@@ -1,6 +1,17 @@
+export { deleteCompleted } from "./delete-completed";
+export { deleteDeleted } from "./delete-deleted";
+export { deleteLoan } from "./delete-loan";
+export { deletePayment } from "./delete-payment";
+export { getCompleted } from "./get-completed";
+export { getDeletes } from "./get-deletes";
 export { getLoan } from "./get-loan";
+export { getLoanDeletes } from "./get-loan-deletes";
 export { getLoans } from "./get-loans";
 export { getPayments } from "./get-payments";
+export { getPaymentsDeleted } from "./get-payments-deletes";
 export { getStats } from "./get-Stats";
+export { postCompleteLoan } from "./post-complete-loan";
 export { postLoan } from "./post-loan";
+export { postPayment } from "./post-payment";
+export { restoreLoan } from "./restore-loan";
 export { verifyUser } from "./verify-user";

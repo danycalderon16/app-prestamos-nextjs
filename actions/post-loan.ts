@@ -1,6 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { CreateLoan, Loan } from "@/interfaces/loans";
-import { UserLoan } from "@/interfaces/userLoan";
+import { CreateLoan, Loan, UserLoan } from "@/interfaces";
 import { generateID, transformDate } from "@/lib/helpers";
 import {
   doc,
@@ -37,8 +36,7 @@ export const postLoan = async (data: { loan: CreateLoan; user_id: string }) => {
     }
     totals = resTotal.data() as UserLoan;    
 
-    const res = await setDoc(
-      // doc(db, `usuarios/${data.user_id}/${id}`),
+    await setDoc(
       doc(db, `usuarios/${data.user_id}/prestamos/${id}`),
       { ...loanPost }
     );
