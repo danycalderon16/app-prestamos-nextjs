@@ -1,11 +1,10 @@
 "use client"
-import { Payment } from "@/interfaces";
+import { Loan, Payment } from "@/interfaces";
 import { Payment as PaymentCard } from "./payment";
 import usePayments from "@/hooks/usePayments";
-import { NewPaymentModal } from "@/components/modals/new-payment-modal";
+import { NewPaymentModal } from "@/components/modals";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loan } from "@/interfaces/loans";
 
 interface Props {
   payments: Payment[];

@@ -1,7 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { Payment } from "@/interfaces";
-import { Loan } from "@/interfaces/loans";
-import { UserLoan } from "@/interfaces/userLoan";
+import { Loan, Payment, UserLoan } from "@/interfaces";
 import { getFirestore, getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 export const deletePayment = async (loanId:string,userId:string,paymentId:string) => {

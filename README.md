@@ -17,6 +17,5 @@ pnpm dev
 
 
 TODO: 
-  restaurar prestamos
-    checar stast
+  form to send email
   

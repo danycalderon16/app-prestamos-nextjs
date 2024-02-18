@@ -1,6 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { CompletedLoan } from "@/interfaces";
-import { UserLoan } from "@/interfaces/userLoan";
+import { CompletedLoan, UserLoan } from "@/interfaces";
 import { getFirestore, getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 export const deleteCompleted = async (loanId:string,userId:string) => {
@@ -23,7 +22,6 @@ export const deleteCompleted = async (loanId:string,userId:string) => {
       throw new Error("No existe el usuario")
     }
     stats = resStats.data() as UserLoan;    
-
 
     await updateDoc(userDoc,{
       totalCompletado: stats.totalCompletado - completedLoan.ganancia

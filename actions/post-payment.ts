@@ -1,9 +1,6 @@
 import firebase_app from "@/firebase/config";
-import { CreatePayment, Payment } from "@/interfaces";
-import { Loan } from "@/interfaces/loans";
-import { UserLoan } from "@/interfaces/userLoan";
+import { CreatePayment, Loan, Payment, UserLoan } from "@/interfaces";
 import { generateID, transformDate } from "@/lib/helpers";
-import { getUser } from "@/lib/utilsServer";
 import {
   doc,
   getFirestore,
@@ -22,9 +19,10 @@ export const postPayment = async (data: {
 
   try {
     const abono = data.payment.abono;
+    const path = `usuarios/${data.user_id}`;
 
-    const loanDoc = doc(db, `usuarios/${data.user_id}/prestamos/${data.loan_id}`);
-    const userDoc = doc(db, `usuarios/${data.user_id}`);
+    const loanDoc = doc(db, `${path}/prestamos/${data.loan_id}`);
+    const userDoc = doc(db, path);
 
     const loan = (await getDoc(loanDoc)).data() as Loan;
     const paymentPost: Payment = {
@@ -42,9 +40,8 @@ export const postPayment = async (data: {
     }
     stats = resTotal.data() as UserLoan;
 
-    const res = await setDoc(
-      // doc(db, `usuarios/${data.user_id}/${id}`),
-      doc(db, `usuarios/${data.user_id}/prestamos/${loan.id}/abonos/${id}`),
+    await setDoc(
+      doc(db, `${path}/prestamos/${loan.id}/abonos/${id}`),
       { ...paymentPost }
     );
 

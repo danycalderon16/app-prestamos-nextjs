@@ -1,6 +1,5 @@
 import firebase_app from "@/firebase/config";
-import { User } from "@/interfaces/user";
-import { UserLoan } from "@/interfaces/userLoan";
+import { User } from "@/interfaces";
 import { doc, getFirestore, setDoc, getDoc } from "firebase/firestore";
 
 export const verifyUser = async (dataUser: User) => {
