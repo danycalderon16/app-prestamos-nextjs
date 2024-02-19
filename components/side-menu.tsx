@@ -53,8 +53,7 @@ export const SideMenu = ({ dataUser }: Props) => {
           setToggleOption("SUPPORT");
           setOpen(true);
         }}
-      />
-      
+      />   
 
       <aside
         id="default-sidebar"

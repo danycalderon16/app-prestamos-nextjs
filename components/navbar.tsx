@@ -1,14 +1,11 @@
 "use client";
 import { UserAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
-import { AlertModal } from "./modals/alert-modal";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { User } from "@/interfaces/user";
+import { User } from "@/interfaces";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
-import { BarChart3, LogOut } from "lucide-react";
-import { StatsModal } from "./modals/stats-modal";
+import { BarChart3, HelpCircle, LogOut } from "lucide-react";
+import { AlertModal, StatsModal, SupportModal } from "./modals";
 interface Props {
   dataUser: User;
 }
@@ -16,18 +13,29 @@ interface Props {
 const Navbar = ({ dataUser }: Props) => {
   const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showStats, setShowStats] = useState<boolean>(false);
-
+  const [openSupport, setOpenSupport] = useState(false);
+  const [toggleOption, setToggleOption] = useState<"SINGOUT" | "SUPPORT" | "">(
+    ""
+  );
   return (
     <>
       <AlertModal
-        title="¿Estás seguro de cerrar sesion?"
+        title={
+          toggleOption === "SINGOUT"
+            ? "¿Estás seguro de cerrar sesion?"
+            : "Se ha enviado un correo a soporte"
+        }
+        description={
+          toggleOption === "SUPPORT" ? "Te contactaremos lo antes posible" : ""
+        }
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={logOut}
-        loading={loading}
-        variant="default"
+        onConfirm={() =>
+          toggleOption === "SINGOUT" ? logOut() : setOpen(false)
+        }
+        loading={false}
+        advice={toggleOption === "SUPPORT"}
       />
 
       <StatsModal
@@ -35,6 +43,16 @@ const Navbar = ({ dataUser }: Props) => {
         isOpen={showStats}
         onClose={() => setShowStats(false)}
         id={dataUser.user_id}
+      />
+
+      <SupportModal
+        title="¿Cómo podemos ayudarte?"
+        isOpen={openSupport}
+        onClose={() => setOpenSupport(false)}
+        onConfirm={() => {
+          setToggleOption("SUPPORT");
+          setOpen(true);
+        }}
       />
 
       <div className="flex justify-between p-3 items-center shadow-md">
@@ -64,7 +82,17 @@ const Navbar = ({ dataUser }: Props) => {
               </span>
             </button>
             <button
-              onClick={() => setOpen(true)}
+              onClick={() => setOpenSupport(true)}
+              className={`flex items-center p-2 text-gray-900 rounded-lg`}
+            >
+              <HelpCircle className="text-gray-500" size={20} />
+              <span className="flex-1 ms-3 whitespace-nowrap">Soporte</span>
+            </button>
+            <button
+              onClick={() => {
+                setToggleOption("SINGOUT");
+                setOpen(true);
+              }}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <LogOut className="text-gray-500" size={20} />
