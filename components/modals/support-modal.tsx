@@ -13,28 +13,20 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
-import { Calendar } from "../ui/calendar";
-import { cn } from "@/lib/utils";
-
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import useNotifications from "@/hooks/useNotifications";
-import { CreatePayment } from "@/interfaces/payment";
-import { postPayment } from "@/actions/post-payment";
-import useLoans from "@/hooks/useLoans";
 import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 
 interface SupportModalProps {
   title: string;
   description?: string;
   isOpen: boolean;
   onClose: () => void;
+  onConfirm: () => void;
 }
 
 const formSchema = z.object({
- supportText: z.string()
+  email: z.string().email(),
+  supportText: z.string(),
 });
 
 export const SupportModal: React.FC<SupportModalProps> = ({
@@ -42,14 +34,13 @@ export const SupportModal: React.FC<SupportModalProps> = ({
   description,
   isOpen,
   onClose,
+  onConfirm
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
   });
-  const { snackBar } = useNotifications();
-  const { id, currentLoan } = useLoans();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -58,7 +49,9 @@ export const SupportModal: React.FC<SupportModalProps> = ({
     return null;
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
-   
+    onConfirm();
+    form.reset();
+    onClose();
   }
 
   return (
@@ -72,11 +65,31 @@ export const SupportModal: React.FC<SupportModalProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div>
-            <FormField
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {" "}
+                      Deja tu correo electrónico y te responderemos
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Correo electrónico" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
                 control={form.control}
                 name="supportText"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      {" "}
+                      Envíanos un mensaje y te responderemos lo antes posible.
+                    </FormLabel>
                     <FormControl>
                       <Textarea placeholder="Deja tu mensaje aquí" {...field} />
                     </FormControl>
@@ -84,7 +97,6 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                   </FormItem>
                 )}
               />
-                       
             </div>
 
             <div className="flex justify-end gap-3">

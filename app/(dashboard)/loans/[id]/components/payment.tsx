@@ -53,6 +53,7 @@ export function Payment({ payment }: Props) {
         onClose={() => setIsOpen(false)}
         onConfirm={() => confirmDeletePayment()}
         loading={false}
+        variant="destructive"
       />
       <div className="flex float-end gap-2 items-start">
         <div className="flex flex-col gap-2 w-[340px] sm:w-[470px] border-b-2 cursor-pointer">

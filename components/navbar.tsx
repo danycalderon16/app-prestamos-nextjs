@@ -27,6 +27,7 @@ const Navbar = ({ dataUser }: Props) => {
         onClose={() => setOpen(false)}
         onConfirm={logOut}
         loading={loading}
+        variant="default"
       />
 
       <StatsModal

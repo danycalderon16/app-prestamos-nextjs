@@ -96,6 +96,7 @@ export default function InfoLoan({ loan }: Props) {
           toggleOption === "DELETE" ? confitmDeleteLoan() : confirmCompleteLoan()
         }}
         loading={false}
+        variant={toggleOption === "COMPLETE" ? "default" : "destructive"}
       />
     <div className="flex flex-col w-[380px] sm:w-[500px] mt-5 border p-2 rounded-md shadow-md">
       <div className="flex w-full justify-around items-center">
