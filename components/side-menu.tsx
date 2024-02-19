@@ -21,15 +21,21 @@ export const SideMenu = ({ dataUser }: Props) => {
   const [open, setOpen] = useState(false);
   const [showStats, setShowStats]= useState<boolean>(false);
   const [openSupport, setOpenSupport] = useState(false);
+  const [toggleOption, setToggleOption] = useState<"SINGOUT" | "SUPPORT" | "">(
+    ""
+  );
 
   return (
     <>
       <AlertModal
-        title="¿Estás seguro de cerrar sesion?"
+        title={toggleOption === "SINGOUT" ? "¿Estás seguro de cerrar sesion?" : "Se ha enviado un correo a soporte"}
+        description={toggleOption === "SUPPORT" ? "Te contactaremos lo antes posible" : ""}
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={() => logOut()}
+        onConfirm={() => 
+          toggleOption === "SINGOUT" ? logOut() : setOpen(false)}
         loading={false}
+        advice={toggleOption === "SUPPORT"}
       />
 
       <StatsModal
@@ -40,11 +46,14 @@ export const SideMenu = ({ dataUser }: Props) => {
       />
 
       <SupportModal
-        title="Ayudanos a mejorar"
+        title="¿Cómo podemos ayudarte?"
         isOpen={openSupport}
         onClose={() => setOpenSupport(false)}
-      />
-      
+        onConfirm={()=>{
+          setToggleOption("SUPPORT");
+          setOpen(true);
+        }}
+      />   
 
       <aside
         id="default-sidebar"
@@ -105,7 +114,11 @@ export const SideMenu = ({ dataUser }: Props) => {
                   </span>
                 </button>
                 <button
-                  onClick={() => setOpen(true)}
+                  onClick={() =>{ 
+                    setToggleOption("SINGOUT")
+                    setOpen(true)
+                  }
+                  }
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                   <LogOut className="text-gray-500" size={30} />

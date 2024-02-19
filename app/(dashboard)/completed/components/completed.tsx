@@ -52,6 +52,7 @@ export default function Completed({ loanCompleted }: Props) {
         onClose={() => setOpen(false)}
         onConfirm={handleDelete}
         loading={false}
+        variant="destructive"
       />
     <div
       className="shadow-md p-2 rounded-md cursor-pointer"
