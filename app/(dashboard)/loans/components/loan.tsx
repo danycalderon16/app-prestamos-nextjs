@@ -1,16 +1,18 @@
 "use client";
 import { Card } from "@/components/ui/card";
+import { StatsContext } from "@/context/StatsContext";
 import useLoans from "@/hooks/useLoans";
-import { Loan } from "@/interfaces/loans";
+import type { Loan } from "@/interfaces/loans";
 import { Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 interface Props {
   loan: Loan;
 }
 
 const Loan: React.FC<Props> = ({ loan }) => {
+  const { saveAbono } = useContext(StatsContext);
   const {saveLoan} = useLoans();
   const [toggle, setToggle] = useState(false);
   const router = useRouter();
@@ -19,7 +21,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
       key={loan.id}
       className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer"
       onClick={() => {
-        setToggle((prev) => !prev);
+        saveAbono({id: loan.id, amount: loan.monto});
       }}
     >
       <div
@@ -73,7 +75,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
           </div>
         </div>
         <div
-          className={`${toggle ? "grid" : "hidden"} grid grid-cols-10 gap-4`}
+          className={`grid grid-cols-10 gap-4`}
         >
           <div className="col-span-4">
             <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">
