@@ -6,6 +6,7 @@ import { User } from "@/interfaces";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { BarChart3, HelpCircle, LogOut } from "lucide-react";
 import { AlertModal, StatsModal, SupportModal } from "./modals";
+import { useRouter } from "next/navigation";
 interface Props {
   dataUser: User;
 }
@@ -13,6 +14,7 @@ interface Props {
 const Navbar = ({ dataUser }: Props) => {
   const { logOut } = UserAuth();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const [showStats, setShowStats] = useState<boolean>(false);
   const [openSupport, setOpenSupport] = useState(false);
   const [toggleOption, setToggleOption] = useState<"SINGOUT" | "SUPPORT" | "">(
@@ -55,8 +57,10 @@ const Navbar = ({ dataUser }: Props) => {
         }}
       />
 
-      <div className="flex justify-between p-3 items-center shadow-md">
-        <h1 className="text-xl sm:text-2xl md:text-3xl">App Prestamos</h1>
+      <div className="flex justify-between sm:justify-start p-3 items-center shadow-md">
+        <h1 className="text-xl sm:text-2xl md:text-3xl cursor-pointer"
+          onClick={()=>router.push("/loans")}
+        >App Prestamos</h1>
         <Popover>
           <PopoverTrigger>
             <div className="flex justify-between gap-2 items-center md:hidden">

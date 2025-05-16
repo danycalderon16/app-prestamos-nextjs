@@ -1,7 +1,7 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import useLoans from "@/hooks/useLoans";
-import { Loan } from "@/interfaces/loans";
+import type { Loan } from "@/interfaces/loans";
 import { Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -73,7 +73,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
           </div>
         </div>
         <div
-          className={`${toggle ? "grid" : "hidden"} grid grid-cols-10 gap-4`}
+          className={`grid grid-cols-10 gap-4`}
         >
           <div className="col-span-4">
             <span className="text-xs sm:text-sm lg:text-base font-bold mr-2">
