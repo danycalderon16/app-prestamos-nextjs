@@ -20,11 +20,11 @@ const Loan: React.FC<Props> = ({ loan }) => {
     <Card
       key={loan.id}
       className="flex sm:w-[500px] lg:w-[600px] p-2 gap-2 cursor-pointer"
+    >
+      <div
       onClick={() => {
         saveAbono({id: loan.id, amount: loan.monto});
       }}
-    >
-      <div
         className={`w-[20px] rounded-sm ${
           loan.tipo === "Semanal" ? "bg-green-700" : "bg-red-600"
         }`}

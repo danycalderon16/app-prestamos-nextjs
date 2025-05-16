@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 interface Loan {
     id: number;
     amount: number;
@@ -6,13 +6,15 @@ interface Loan {
 interface StatsContextInterface {
     loans: Loan[];
     saveAbono: (stats: Loan) => void;
-    calculateTotal: () => number
+    autoSum: number
+    clearStsats: () => void;    
 }
 
 const initialState: StatsContextInterface = {
     loans: [],
     saveAbono: (loan: Loan) => { },    
-    calculateTotal: () => 0
+    autoSum: 0,
+    clearStsats: () => { }
 };
 
 const INITIALSTATELOAN: Loan[] = [
@@ -25,8 +27,14 @@ const INITIALSTATELOAN: Loan[] = [
 export const StatsContext = createContext(initialState);
 
 const StatsContextProvider = ({ children }: React.PropsWithChildren) => {
-    const [loans, setLoan] = useState<Loan[]>(INITIALSTATELOAN);
 
+    const [loans, setLoan] = useState<Loan[]>(INITIALSTATELOAN);
+    const [autoSum, setAutoSum] = useState<number>(0);
+
+    useEffect(() => {
+      setAutoSum(prev => loans.reduce((acc, loan) => acc + loan.amount, 0))
+    }, [loans]);
+    
     const saveAbono = (loan: Loan) => {
         setLoan(prevLoans => {
             const existingLoan = prevLoans.find(l => l.id === loan.id);
@@ -38,8 +46,8 @@ const StatsContextProvider = ({ children }: React.PropsWithChildren) => {
         })
     }
 
-    const calculateTotal = () => {
-        return loans.reduce((acc, loan) => acc + loan.amount, 0);
+    const clearStsats = () => {
+        setLoan(INITIALSTATELOAN);
     }
          
     return (
@@ -47,7 +55,8 @@ const StatsContextProvider = ({ children }: React.PropsWithChildren) => {
             value={{
                 loans,
                 saveAbono,
-                calculateTotal
+                autoSum,
+                clearStsats
             }}
         >
             {children}
