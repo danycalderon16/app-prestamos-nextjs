@@ -54,7 +54,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
               Prestamo
             </span>
             <span className="text-xs sm:text-sm lg:text-base ">
-              ${loan.saldo}
+              ${loan.cantidadPrestada}
             </span>
           </div>
           <div className="col-span-3">
@@ -82,7 +82,7 @@ const Loan: React.FC<Props> = ({ loan }) => {
               Saldo inicial
             </span>
             <span className="text-xs sm:text-sm lg:text-base ">
-              ${loan.cantidadPrestada}
+              ${loan.monto*loan.plazos}
             </span>
           </div>
           <div className="col-span-3">
